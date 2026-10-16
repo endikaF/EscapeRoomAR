@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
   providerSource: {fileID: 377518131}
   registry: {fileID: 11400000, guid: 0edf44a23c776df4f9c5a405cfff1d71, type: 2}
-  activationDistance: 3
+  activationDistance: 1
 --- !u!114 &377518131
 MonoBehaviour:
   m_ObjectHideFlags: 0
