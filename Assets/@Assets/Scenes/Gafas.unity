@@ -151,6 +151,55 @@ Transform:
   - {fileID: 1764823859}
   m_Father: {fileID: 1421343292}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &490663251
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 490663253}
+  - component: {fileID: 490663252}
+  m_Layer: 0
+  m_Name: Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &490663252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490663251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02384b16cd9c99446b05926b34c688a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestControllerPlacement
+  provider: {fileID: 1464789201}
+  spawnManager: {fileID: 1544124100}
+  xrOrigin: {fileID: 1421343292}
+  rayLength: 10
+  damage: 1
+--- !u!4 &490663253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490663251}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &708071502
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +432,6 @@ GameObject:
   - component: {fileID: 1421343294}
   - component: {fileID: 1421343296}
   - component: {fileID: 1421343295}
-  - component: {fileID: 1421343293}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -407,22 +455,6 @@ Transform:
   - {fileID: 180447331}
   m_Father: {fileID: 1011071810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1421343293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421343291}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.XR.ARFoundation::UnityEngine.XR.ARFoundation.ARAnchorManager
-  <trackablesChanged>k__BackingField:
-    m_PersistentCalls:
-      m_Calls: []
-  m_AnchorPrefab: {fileID: 0}
 --- !u!114 &1421343294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +470,7 @@ MonoBehaviour:
   m_Camera: {fileID: 1764823866}
   m_OriginBaseGameObject: {fileID: 1421343291}
   m_CameraFloorOffsetObject: {fileID: 180447330}
-  m_RequestedTrackingOriginMode: 0
+  m_RequestedTrackingOriginMode: 2
   m_CameraYOffset: 1.1176
 --- !u!114 &1421343295
 MonoBehaviour:
@@ -584,7 +616,6 @@ GameObject:
   - component: {fileID: 1764823863}
   - component: {fileID: 1764823862}
   - component: {fileID: 1764823861}
-  - component: {fileID: 1764823860}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -607,20 +638,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 180447331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1764823860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764823858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6944150390211b4c8bc76cd515ffd68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClickToShoot
-  range: 30
-  damage: 1
 --- !u!114 &1764823861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,7 +834,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -858,7 +875,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!1 &1911946154
+--- !u!1 &1833908689
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -866,36 +883,34 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1911946156}
-  - component: {fileID: 1911946155}
+  - component: {fileID: 1833908691}
+  - component: {fileID: 1833908690}
   m_Layer: 0
-  m_Name: HUD
+  m_Name: Permisos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1911946155
+--- !u!114 &1833908690
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911946154}
+  m_GameObject: {fileID: 1833908689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a61031ac3195d1b489e4968cb966da2f, type: 3}
+  m_Script: {fileID: 11500000, guid: f890fbb0d20505e4d849603d0a9f6ba2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ARPlacementHUD
-  provider: {fileID: 1464789201}
-  spawnManager: {fileID: 1544124100}
---- !u!4 &1911946156
+  m_EditorClassIdentifier: Assembly-CSharp::QuestPermissions
+--- !u!4 &1833908691
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911946154}
+  m_GameObject: {fileID: 1833908689}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -908,8 +923,9 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1464789202}
   - {fileID: 1011071810}
   - {fileID: 1027622646}
   - {fileID: 1544124101}
-  - {fileID: 1911946156}
+  - {fileID: 490663253}
+  - {fileID: 1464789202}
+  - {fileID: 1833908691}

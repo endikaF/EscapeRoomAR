@@ -653,7 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e567abbf4d944210acb6315178bb015, type: 3}
   m_Name: ARCameraFeature Android
   m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.ARCameraFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Meta Quest: Camera (Passthrough)'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-meta-camera
@@ -924,7 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076937beb8763d94790d2e9cc1248ac8, type: 3}
   m_Name: ARSessionFeature Android
   m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.ARSessionFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Meta Quest: Session'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-meta-session
@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323d71788dcf5ca4b9cb3c4a90e38335, type: 3}
   m_Name: OpenXRLifeCycleFeature Android
   m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.OpenXRLifeCycleFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 
   version: 0.1.0
   featureIdInternal: MetaOpenXR-OpenXRLifeCycle
@@ -1759,7 +1759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00bb9c182ae8406ca03773119fa07ea, type: 3}
   m_Name: ARPlaneFeature Android
   m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.ARPlaneFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Meta Quest: Planes'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-meta-plane
@@ -1983,7 +1983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec7ac3a07bc448fbb43bbcff14d5b12, type: 3}
   m_Name: ARRaycastFeature Android
   m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.ARRaycastFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Meta Quest: Raycasts'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-meta-raycast
@@ -2559,7 +2559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6096094d69d82cc40947df806f66ab34, type: 3}
   m_Name: OpenXRCompositionLayersFeature Android
   m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.CompositionLayers.OpenXRCompositionLayersFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Composition Layers Support
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.compositionlayers
@@ -2653,7 +2653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fd4a84074c74cb183c18e803dabb9e, type: 3}
   m_Name: ARAnchorFeature Android
   m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.ARAnchorFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Meta Quest: Anchors'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-meta-anchor

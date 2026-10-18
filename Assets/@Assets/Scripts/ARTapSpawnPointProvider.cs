@@ -85,8 +85,31 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
             return;
         }
 
-        Pose pose = hits[0].pose;
+        PlacePose(hits[0].pose);
+    }
 
+    // Colocar desde un rayo en el mundo (mando del Quest)
+    public void PlaceFromRay(Ray ray)
+    {
+        if (CurrentMode != Mode.Place) return;
+
+        if (raycastManager == null)
+        {
+            LastMessage = "Falta asignar el AR Raycast Manager.";
+            return;
+        }
+
+        if (!raycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon))
+        {
+            LastMessage = "No hay plano ahí. Apunta a una pared, suelo o techo.";
+            return;
+        }
+
+        PlacePose(hits[0].pose);
+    }
+
+    private void PlacePose(Pose pose)
+    {
         // Orientar el punto mirando hacia el jugador (solo en horizontal)
         Quaternion rot = pose.rotation;
         var cam = Camera.main;
