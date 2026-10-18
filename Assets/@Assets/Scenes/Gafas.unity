@@ -242,6 +242,7 @@ MonoBehaviour:
   xrOrigin: {fileID: 1421343292}
   rayLength: 10
   damage: 1
+  rayPitchOffset: 0
 --- !u!4 &490663253
 Transform:
   m_ObjectHideFlags: 0
@@ -489,6 +490,7 @@ GameObject:
   - component: {fileID: 1421343294}
   - component: {fileID: 1421343296}
   - component: {fileID: 1421343295}
+  - component: {fileID: 1421343297}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -562,6 +564,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_RaycastPrefab: {fileID: 0}
+--- !u!114 &1421343297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421343291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.ARFoundation::UnityEngine.XR.ARFoundation.ARAnchorManager
+  <trackablesChanged>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  m_AnchorPrefab: {fileID: 0}
 --- !u!1 &1464789200
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +614,10 @@ MonoBehaviour:
   hidePlanesWhilePlaying: 0
   pointsParent: {fileID: 1421343292}
   showMarkersWhilePlaying: 0
+  anchorManager: {fileID: 1421343297}
+  saveFileName: spawnpoints.json
+  loadRetries: 5
+  loadRetryDelay: 3
 --- !u!4 &1464789202
 Transform:
   m_ObjectHideFlags: 0

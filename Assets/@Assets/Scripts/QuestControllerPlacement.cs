@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 //   Gatillo : modo Colocar = poner punto | modo Jugar = disparar
 //   A       : cambiar tipo (Zombie / Spider)
 //   B       : alternar Colocar / Jugar
-//   Grip    : deshacer último punto
+//   Grip    : toque corto = deshacer último punto | mantener 1,5 s = borrar todos
 // Usa acciones del Input System sobre <XRController>{RightHand}, que es lo que exponen tanto el plugin OpenXR
-// como el simulador de XRI. Si no hay ningún mando, en el editor valen atajos de teclado: 1 = tipo, Espacio = modo, Backspace = deshacer.
+// como el simulador de XRI. Si no hay ningún mando, en el editor valen atajos de teclado: 1 = tipo, Espacio = modo, Backspace = deshacer, Supr = borrar todos.
 public class QuestControllerPlacement : MonoBehaviour
 {
     [SerializeField] private ARTapSpawnPointProvider provider;
@@ -22,6 +22,7 @@ public class QuestControllerPlacement : MonoBehaviour
     private InputAction posAction, rotAction, triggerAction, gripAction, aAction, bAction;
     private LineRenderer line;
     private TextMesh hud;
+    private float gripDownTime;
 
     private void Awake()
     {
@@ -140,8 +141,13 @@ public class QuestControllerPlacement : MonoBehaviour
         // B: alternar modo
         if (bAction.WasPressedThisFrame()) ToggleMode();
 
-        // Grip: deshacer
-        if (gripAction.WasPressedThisFrame() && placing) provider.UndoLast();
+        // Grip: toque corto = deshacer, mantener 1,5 s = borrar todos
+        if (gripAction.WasPressedThisFrame()) gripDownTime = Time.time;
+        if (gripAction.WasReleasedThisFrame() && placing)
+        {
+            if (Time.time - gripDownTime >= 1.5f) provider.ClearAll();
+            else provider.UndoLast();
+        }
 
         UpdateHud();
     }
@@ -175,6 +181,7 @@ public class QuestControllerPlacement : MonoBehaviour
         if (kb.digit1Key.wasPressedThisFrame && placing) CycleType();
         if (kb.spaceKey.wasPressedThisFrame) ToggleMode();
         if (kb.backspaceKey.wasPressedThisFrame && placing) provider.UndoLast();
+        if (kb.deleteKey.wasPressedThisFrame && placing) provider.ClearAll();
 #endif
     }
 
