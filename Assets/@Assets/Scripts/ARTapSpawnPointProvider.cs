@@ -12,6 +12,10 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
     public enum Mode { Place, Play }
 
     [SerializeField] private ARRaycastManager raycastManager;
+    [Tooltip("Opcional: si se asigna, en modo Jugar se deja de detectar y se ocultan los planos")]
+    [SerializeField] private ARPlaneManager planeManager;
+    [Tooltip("En modo Jugar: true = ocultar los planos; false = dejarlos visibles pero congelados")]
+    [SerializeField] private bool hidePlanesWhilePlaying = true;
     [Tooltip("Arrastra aquí el objeto XR Origin, para que los puntos se muevan con el espacio AR")]
     [SerializeField] private Transform pointsParent;
     [SerializeField] private bool showMarkersWhilePlaying = false;
@@ -130,6 +134,14 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         bool visible = mode == Mode.Place || showMarkersWhilePlaying;
         foreach (var p in placed)
             if (p.visual != null) p.visual.SetActive(visible);
+
+        // En modo Jugar: no detectar más planos (y ocultarlos o no, según la opción)
+        if (planeManager != null)
+        {
+            bool scanning = mode == Mode.Place;
+            planeManager.enabled = scanning;                       // deja de detectar/actualizar planos
+            planeManager.SetTrackablesActive(scanning || !hidePlanesWhilePlaying); // visibilidad
+        }
 
         LastMessage = mode == Mode.Place
             ? "Modo colocar: toca un plano para añadir un punto."

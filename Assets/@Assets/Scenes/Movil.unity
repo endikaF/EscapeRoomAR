@@ -611,6 +611,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ARTapSpawnPointProvider
   raycastManager: {fileID: 1300519915}
+  planeManager: {fileID: 1300519914}
+  hidePlanesWhilePlaying: 0
   pointsParent: {fileID: 1300519912}
   showMarkersWhilePlaying: 0
 --- !u!1 &2076390855
