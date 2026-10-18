@@ -28,6 +28,9 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
     // Lo rellena el HUD: los toques en esta franja inferior de la pantalla se ignoran (son de los botones)
     [NonSerialized] public float ignoreBottomPixels;
 
+    // Lo pone a true QuestControllerPlacement cuando hay un mando (real o simulado): ignora el ratón en el editor
+    [NonSerialized] public bool suppressMouseInput;
+
     private class Placed
     {
         public string id;
@@ -52,7 +55,7 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         pos = default;
 #if UNITY_EDITOR
         // En el editor (por ejemplo con XR Simulation) se usa el ratón
-        if (Input.GetMouseButtonDown(0))
+        if (!suppressMouseInput && Input.GetMouseButtonDown(0))
         {
             pos = Input.mousePosition;
             return pos.y > ignoreBottomPixels;
