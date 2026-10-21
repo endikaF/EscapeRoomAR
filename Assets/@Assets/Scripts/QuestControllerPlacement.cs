@@ -27,10 +27,10 @@ public class QuestControllerPlacement : MonoBehaviour
     private void Awake()
     {
         posAction = new InputAction("Position", InputActionType.Value, expectedControlType: "Vector3");
-        posAction.AddBinding("<XRController>{RightHand}/devicePosition");
+        posAction.AddBinding("<XRController>{RightHand}/pointerPosition");
 
         rotAction = new InputAction("Rotation", InputActionType.Value, expectedControlType: "Quaternion");
-        rotAction.AddBinding("<XRController>{RightHand}/deviceRotation");
+        rotAction.AddBinding("<XRController>{RightHand}/pointerRotation");
 
         triggerAction = MakeButton("Trigger", "{TriggerButton}", "triggerPressed");
         gripAction = MakeButton("Grip", "{GripButton}", "gripPressed");
