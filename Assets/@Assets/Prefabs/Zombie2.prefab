@@ -522,7 +522,7 @@ MonoBehaviour:
   speed: 1
   stopDistance: 0.8
   turnSpeed: 6
-  lockToGround: 1
+  lockToGround: 0
   attackCooldown: 1.5
 --- !u!114 &-8361798051203204997
 MonoBehaviour:
@@ -538,6 +538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   maxHealth: 3
   destroyDelay: 4
+  hitStunTime: 0.6
 --- !u!82 &-8516042501905885927
 AudioSource:
   m_ObjectHideFlags: 0
