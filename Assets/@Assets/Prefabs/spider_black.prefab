@@ -1396,6 +1396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   maxHealth: 3
   destroyDelay: 4
+  hitStunTime: 0.5
 --- !u!82 &-6239228652584061443
 AudioSource:
   m_ObjectHideFlags: 0

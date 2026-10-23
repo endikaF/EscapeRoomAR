@@ -15,6 +15,8 @@ public class ChasePlayer : MonoBehaviour
     private float groundY;
     private float nextAttackTime;
 
+    private float stunnedUntil;
+
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -25,6 +27,9 @@ public class ChasePlayer : MonoBehaviour
     {
         var cam = Camera.main;
         if (cam == null) return;
+
+        // Quieto mientras dura la animación de daño
+        if (Time.time < stunnedUntil) return;
 
         Vector3 target = cam.transform.position;
         if (lockToGround) target.y = groundY;
@@ -60,5 +65,13 @@ public class ChasePlayer : MonoBehaviour
     private void SetMoving(bool moving)
     {
         if (anim != null) anim.SetBool("IsMoving", moving);
+    }
+
+    // Lo llama MonsterHealth al recibir daño
+    public void Stun(float seconds)
+    {
+        if (Time.time < stunnedUntil) return;
+        stunnedUntil = Time.time + seconds;
+        SetMoving(false);
     }
 }

@@ -5,6 +5,7 @@ public class MonsterHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 3f;
     [SerializeField] private float destroyDelay = 4f;
+    [SerializeField] private float hitStunTime = 0.6f;
 
     private float health;
     private bool dead;
@@ -15,7 +16,13 @@ public class MonsterHealth : MonoBehaviour
     {
         if (dead) return;
         health -= amount;
-        if (health <= 0f) Die();
+        if (health <= 0f) { Die(); return; }
+
+        var chase = GetComponent<ChasePlayer>();
+        if (chase != null) chase.Stun(hitStunTime);
+
+        var anim = GetComponentInChildren<Animator>();
+        if (anim != null) anim.SetTrigger("Hit");
     }
 
     private void Die()
