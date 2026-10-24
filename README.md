@@ -95,3 +95,38 @@ Estos atajos solo se activan si no hay ningún mando detectado.
 - Si mueves muchos muebles después de escanear, repite el Space Setup para que los planos y el reconocimiento sigan siendo fiables.
 - La persistencia solo se puede validar en el casco: en el editor y en los simuladores no se guardan anclas.
 - Móvil y Quest son ambos Android: con el proveedor XR hay que elegir uno por build (ARCore para móvil, OpenXR para Quest).
+
+---
+
+## Menú inicial y acceso de administrador
+
+La app arranca en la escena `MenuInicial` (debe ser la primera en `Build Profiles`). Desde ahí se entra a la escena `gafas` de dos formas:
+
+| Quién | Cómo | Resultado |
+|---|---|---|
+| **Cliente** | Apuntar con el rayo del mando derecho al botón **JUGAR** y pulsar el **gatillo** | Entra en modo JUGAR, sin poder colocar puntos ni cambiar de modo |
+| **Administrador** | Combinación secreta con el mando derecho (ver abajo) | Entra en modo COLOCAR con permisos de administrador |
+
+### Combinación de administrador
+
+Con el mando derecho, en la escena del menú, pulsar en este orden:
+
+**A → A → B → Grip**
+
+- El **gatillo no forma parte de la combinación**: solo sirve para hacer clic en JUGAR.
+- Si te equivocas de botón, la secuencia se reinicia.
+- La secuencia también se reinicia si pasan más de 3 s entre dos pulsaciones (configurable en el componente `MenuController`).
+- Al completarla se carga la escena `gafas` en modo COLOCAR, con los controles de administrador descritos arriba.
+
+### Atajos en el editor (escena del menú)
+
+| Acción | Tecla |
+|---|---|
+| Entrar como cliente | Clic izquierdo sobre el botón **JUGAR** |
+| Entrar como administrador | **1, 1, 2, 3** (1 = A, 2 = B, 3 = Grip) |
+
+### Permisos según el tipo de sesión
+
+- **Cliente:** solo modo JUGAR. El botón **B** y la tecla **Espacio** no cambian de modo.
+- **Administrador:** puede colocar puntos y alternar entre COLOCAR y JUGAR con **B**.
+- Si abres la escena `gafas` directamente en el editor, arranca como administrador en modo COLOCAR (para poder probar sin pasar por el menú). En una build siempre se pasa por el menú.
