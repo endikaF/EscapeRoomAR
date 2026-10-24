@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d9e5f272e1a6e7243add612d5cc237f8
+timeCreated: 1545117250
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13756
+  packageName: Monster Cat Bat
+  packageVersion: 1.4
+  assetPath: Assets/Monster Cat Bat/Prefabs/Monster Cat Bat Brown.prefab
+  uploadId: 284073
