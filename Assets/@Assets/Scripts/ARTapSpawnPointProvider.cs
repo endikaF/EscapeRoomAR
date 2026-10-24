@@ -84,6 +84,8 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
 
     private async void Start()
     {
+
+        SetMode(GameSession.StartMode);
         if (anchorManager == null) return;
 
         try { await LoadSavedPoints(); }

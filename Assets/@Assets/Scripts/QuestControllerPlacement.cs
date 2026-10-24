@@ -159,6 +159,8 @@ public class QuestControllerPlacement : MonoBehaviour
 
     private void ToggleMode()
     {
+        if (!GameSession.IsAdmin) return;
+
         if (provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place)
         {
             provider.SetMode(ARTapSpawnPointProvider.Mode.Play);
