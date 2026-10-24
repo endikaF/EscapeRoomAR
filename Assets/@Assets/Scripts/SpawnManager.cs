@@ -37,7 +37,8 @@ public class SpawnManager : MonoBehaviour
             // Distancia horizontal: ignora la altura de la cabeza respecto al ancla
             Vector3 a = new Vector3(player.x, 0f, player.z);
             Vector3 b = new Vector3(p.position.x, 0f, p.position.z);
-            if (Vector3.Distance(a, b) > activationDistance) continue;
+            float maxDist = registry.GetActivationDistance(p.type, activationDistance);
+            if (Vector3.Distance(a, b) > maxDist) continue;
 
             Spawn(p);
         }

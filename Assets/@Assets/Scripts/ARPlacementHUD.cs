@@ -39,17 +39,17 @@ public class ARPlacementHUD : MonoBehaviour
 
         if (provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place)
         {
-            string[] names = { "Zombie", "Spider", "Deshacer", "Borrar todo", "JUGAR" };
+            string[] names = { "Zombie", "Spider", "Bat", "Deshacer", "Borrar todo", "JUGAR" };
             float w = (Screen.width - pad * (names.Length + 1)) / names.Length;
 
             for (int i = 0; i < names.Length; i++)
             {
                 var r = new Rect(pad + i * (w + pad), y, w, h);
 
-                // Resaltar el tipo seleccionado
                 Color old = GUI.backgroundColor;
                 if ((i == 0 && provider.SelectedType == MonsterType.Zombie) ||
-                    (i == 1 && provider.SelectedType == MonsterType.Spider))
+                    (i == 1 && provider.SelectedType == MonsterType.Spider) ||
+                    (i == 2 && provider.SelectedType == MonsterType.Bat))
                     GUI.backgroundColor = Color.green;
 
                 bool pressed = GUI.Button(r, names[i], buttonStyle);
@@ -61,9 +61,10 @@ public class ARPlacementHUD : MonoBehaviour
                 {
                     case 0: provider.SetType(MonsterType.Zombie); break;
                     case 1: provider.SetType(MonsterType.Spider); break;
-                    case 2: provider.UndoLast(); break;
-                    case 3: provider.ClearAll(); break;
-                    case 4: provider.SetMode(ARTapSpawnPointProvider.Mode.Play); break;
+                    case 2: provider.SetType(MonsterType.Bat); break;
+                    case 3: provider.UndoLast(); break;
+                    case 4: provider.ClearAll(); break;
+                    case 5: provider.SetMode(ARTapSpawnPointProvider.Mode.Play); break;
                 }
             }
         }

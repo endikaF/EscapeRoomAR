@@ -2,5 +2,6 @@
 public enum MonsterType
 {
     Zombie,
-    Spider
+    Spider,
+    Bat
 }

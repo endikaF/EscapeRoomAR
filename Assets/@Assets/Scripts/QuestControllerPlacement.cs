@@ -268,7 +268,8 @@ public class QuestControllerPlacement : MonoBehaviour
 
     private void CycleType()
     {
-        provider.SetType(provider.SelectedType == MonsterType.Zombie ? MonsterType.Spider : MonsterType.Zombie);
+        int count = System.Enum.GetValues(typeof(MonsterType)).Length;
+        provider.SetType((MonsterType)(((int)provider.SelectedType + 1) % count));
     }
 
     private void ToggleMode()
