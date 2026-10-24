@@ -47,13 +47,13 @@ MonoBehaviour:
   batPrefab: {fileID: 1137468214502022, guid: d9e5f272e1a6e7243add612d5cc237f8, type: 3}
   count: 7
   spawnRadius: 1
-  spawnHeight: {x: 0.8, y: 2}
+  spawnHeight: {x: 0.5, y: 0.5}
   spawnDuration: 1
   scaleInTime: 0.5
-  speedRange: {x: 2.5, y: 4}
+  speedRange: {x: 2, y: 3}
   targetSpread: 0.4
   passDistance: 0.8
   exitDistance: 8
   turnSpeed: 8
   wobble: 0.3
-  lifetime: 10
+  lifetime: 6
