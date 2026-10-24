@@ -61,4 +61,18 @@ public class SpawnManager : MonoBehaviour
         spawned.Clear();
         usedPoints.Clear();
     }
+
+    // true cuando hay puntos y todos han hecho aparecer su monstruo
+    public bool AllPointsSpawned
+    {
+        get
+        {
+            if (provider == null) return false;
+            var pts = provider.GetPoints();
+            if (pts.Count == 0) return false;
+            foreach (var p in pts)
+                if (!usedPoints.Contains(p.id)) return false;
+            return true;
+        }
+    }
 }

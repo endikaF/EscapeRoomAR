@@ -1,13 +1,22 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Control con el mando derecho (Quest real o simulador de XR Interaction Toolkit).
-//   Gatillo : modo Colocar = poner punto | modo Jugar = disparar
+// Control con los mandos (Quest real o simulador de XR Interaction Toolkit).
+//
+// MODO COLOCAR (solo mando derecho):
+//   Gatillo : poner punto
 //   A       : cambiar tipo (Zombie / Spider)
-//   B       : alternar Colocar / Jugar
+//   B       : pasar a Jugar (solo administrador)
 //   Grip    : toque corto = deshacer último punto | mantener 1,5 s = borrar todos
-// Usa acciones del Input System sobre <XRController>{RightHand}, que es lo que exponen tanto el plugin OpenXR
-// como el simulador de XRI. Si no hay ningún mando, en el editor valen atajos de teclado: 1 = tipo, Espacio = modo, Backspace = deshacer, Supr = borrar todos.
+//
+// MODO JUGAR (los dos mandos):
+//   Gatillo izquierdo y derecho : disparar (cada mano con su rayo y su cadencia)
+//   A, B y Grip están DESHABILITADOS: no hacen nada.
+//   La salida al menú la gestiona ExitToMenuGesture.
+//
+// Usa acciones del Input System sobre <XRController>{RightHand} / {LeftHand}.
+// Si no hay ningún mando, en el editor valen atajos de teclado:
+//   1 = tipo, Espacio = modo, Backspace = deshacer, Supr = borrar todos.
 public class QuestControllerPlacement : MonoBehaviour
 {
     [SerializeField] private ARTapSpawnPointProvider provider;
@@ -16,64 +25,89 @@ public class QuestControllerPlacement : MonoBehaviour
     [SerializeField] private Transform xrOrigin;
     [SerializeField] private float rayLength = 10f;
     [SerializeField] private float damage = 1f;
+    [Tooltip("Segundos mínimos entre disparos de un mismo mando")]
+    [SerializeField] private float shootCooldown = 0.25f;
+    [Tooltip("Segundos de grip para borrar todos los puntos")]
+    [SerializeField] private float clearHoldSeconds = 1.5f;
     [Tooltip("Si en el Quest el rayo sale inclinado respecto a tu mano, corrígelo aquí (grados, en cabeceo)")]
     [SerializeField] private float rayPitchOffset = 0f;
 
-    private InputAction posAction, rotAction, triggerAction, gripAction, aAction, bAction;
-    private LineRenderer line;
+    // Datos de cada mano: pose del rayo, gatillo, línea visible y cadencia
+    private class Hand
+    {
+        public InputAction pos, rot, trigger;
+        public LineRenderer line;
+        public float nextShootTime;
+    }
+
+    private Hand right, left;
+
+    // Botones solo del mando derecho (se deshabilitan en modo Jugar)
+    private InputAction gripAction, aAction, bAction;
+    private bool buttonsEnabled = true;
+
     private TextMesh hud;
     private float gripDownTime;
 
     private void Awake()
     {
-        posAction = new InputAction("Position", InputActionType.Value, expectedControlType: "Vector3");
-        posAction.AddBinding("<XRController>{RightHand}/pointerPosition");
+        right = MakeHand("RightHand");
+        left = MakeHand("LeftHand");
 
-        rotAction = new InputAction("Rotation", InputActionType.Value, expectedControlType: "Quaternion");
-        rotAction.AddBinding("<XRController>{RightHand}/pointerRotation");
-
-        triggerAction = MakeButton("Trigger", "{TriggerButton}", "triggerPressed");
-        gripAction = MakeButton("Grip", "{GripButton}", "gripPressed");
-        aAction = MakeButton("A", "{PrimaryButton}", "primaryButton");
-        bAction = MakeButton("B", "{SecondaryButton}", "secondaryButton");
+        gripAction = MakeButton("RightHand", "Grip", "{GripButton}", "gripPressed");
+        aAction = MakeButton("RightHand", "A", "{PrimaryButton}", "primaryButton");
+        bAction = MakeButton("RightHand", "B", "{SecondaryButton}", "secondaryButton");
     }
 
-    private static InputAction MakeButton(string name, params string[] controls)
+    private static Hand MakeHand(string side)
+    {
+        var h = new Hand();
+
+        h.pos = new InputAction("Position" + side, InputActionType.Value, expectedControlType: "Vector3");
+        h.pos.AddBinding($"<XRController>{{{side}}}/pointerPosition");
+
+        h.rot = new InputAction("Rotation" + side, InputActionType.Value, expectedControlType: "Quaternion");
+        h.rot.AddBinding($"<XRController>{{{side}}}/pointerRotation");
+
+        h.trigger = MakeButton(side, "Trigger" + side, "{TriggerButton}", "triggerPressed");
+        return h;
+    }
+
+    private static InputAction MakeButton(string side, string name, params string[] controls)
     {
         var action = new InputAction(name, InputActionType.Button);
         foreach (var c in controls)
-            action.AddBinding($"<XRController>{{RightHand}}/{c}");
+            action.AddBinding($"<XRController>{{{side}}}/{c}");
         return action;
     }
 
     private void OnEnable()
     {
-        posAction.Enable(); rotAction.Enable();
-        triggerAction.Enable(); gripAction.Enable(); aAction.Enable(); bAction.Enable();
+        EnableHand(right); EnableHand(left);
+        gripAction.Enable(); aAction.Enable(); bAction.Enable();
+        buttonsEnabled = true;
     }
 
     private void OnDisable()
     {
-        posAction.Disable(); rotAction.Disable();
-        triggerAction.Disable(); gripAction.Disable(); aAction.Disable(); bAction.Disable();
+        DisableHand(right); DisableHand(left);
+        gripAction.Disable(); aAction.Disable(); bAction.Disable();
     }
 
     private void OnDestroy()
     {
-        posAction.Dispose(); rotAction.Dispose();
-        triggerAction.Dispose(); gripAction.Dispose(); aAction.Dispose(); bAction.Dispose();
+        DisposeHand(right); DisposeHand(left);
+        gripAction.Dispose(); aAction.Dispose(); bAction.Dispose();
     }
+
+    private static void EnableHand(Hand h) { h.pos.Enable(); h.rot.Enable(); h.trigger.Enable(); }
+    private static void DisableHand(Hand h) { h.pos.Disable(); h.rot.Disable(); h.trigger.Disable(); }
+    private static void DisposeHand(Hand h) { h.pos.Dispose(); h.rot.Dispose(); h.trigger.Dispose(); }
 
     private void Start()
     {
-        // Línea del rayo
-        var lineGo = new GameObject("ControllerRay");
-        lineGo.transform.SetParent(transform, false);
-        line = lineGo.AddComponent<LineRenderer>();
-        line.positionCount = 2;
-        line.startWidth = line.endWidth = 0.006f;
-        line.material = new Material(Shader.Find("Sprites/Default"));
-        line.enabled = false;
+        right.line = CreateLine("ControllerRay_Right");
+        left.line = CreateLine("ControllerRay_Left");
 
         // Texto de estado pegado a la cámara
         var cam = Camera.main;
@@ -94,62 +128,142 @@ public class QuestControllerPlacement : MonoBehaviour
         }
     }
 
+    private LineRenderer CreateLine(string name)
+    {
+        var lineGo = new GameObject(name);
+        lineGo.transform.SetParent(transform, false);
+        var line = lineGo.AddComponent<LineRenderer>();
+        line.positionCount = 2;
+        line.startWidth = line.endWidth = 0.006f;
+        line.material = new Material(Shader.Find("Sprites/Default"));
+        line.enabled = false;
+        return line;
+    }
+
     private void Update()
     {
         if (provider == null) return;
 
-        bool hasController = posAction.controls.Count > 0;
+        bool hasRight = right.pos.controls.Count > 0;
+        bool hasLeft = left.pos.controls.Count > 0;
+        bool hasController = hasRight || hasLeft;
 
         // Con mando presente, el provider ignora el ratón (así no se coloca dos veces en el editor)
         provider.suppressMouseInput = hasController;
 
         if (!hasController)
         {
-            line.enabled = false;
+            right.line.enabled = false;
+            left.line.enabled = false;
             EditorShortcuts();
             UpdateHud();
             return;
         }
 
-        Vector3 localPos = posAction.ReadValue<Vector3>();
-        Quaternion localRot = rotAction.ReadValue<Quaternion>();
+        bool placing = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place;
+
+        // En Jugar, A / B / Grip ni se leen: no pueden desencadenar nada
+        SetButtonsEnabled(placing);
+
+        if (placing)
+        {
+            left.line.enabled = false;
+            UpdatePlaceRight();
+        }
+        else
+        {
+            UpdatePlayHand(right);
+            UpdatePlayHand(left);
+        }
+
+        UpdateHud();
+    }
+
+    // ---- Modo Colocar: solo mando derecho ----
+
+    private void UpdatePlaceRight()
+    {
+        if (!TryGetRay(right, out Ray ray))
+        {
+            right.line.enabled = false;
+            return;
+        }
+
+        ShowRay(right, ray, Color.cyan);
+
+        if (right.trigger.WasPressedThisFrame()) provider.PlaceFromRay(ray);
+
+        if (aAction.WasPressedThisFrame()) CycleType();
+
+        if (bAction.WasPressedThisFrame()) ToggleMode();
+
+        // Grip: toque corto = deshacer, mantener = borrar todos
+        if (gripAction.WasPressedThisFrame()) gripDownTime = Time.time;
+        if (gripAction.WasReleasedThisFrame())
+        {
+            if (Time.time - gripDownTime >= clearHoldSeconds) provider.ClearAll();
+            else provider.UndoLast();
+        }
+    }
+
+    // ---- Modo Jugar: los dos mandos, solo gatillo ----
+
+    private void UpdatePlayHand(Hand h)
+    {
+        if (!TryGetRay(h, out Ray ray))
+        {
+            h.line.enabled = false;
+            return;
+        }
+
+        ShowRay(h, ray, Color.red);
+
+        if (h.trigger.WasPressedThisFrame() && Time.time >= h.nextShootTime)
+        {
+            h.nextShootTime = Time.time + shootCooldown;
+            Shoot(ray);
+        }
+    }
+
+    // ---- Utilidades ----
+
+    private void SetButtonsEnabled(bool enabled)
+    {
+        if (enabled == buttonsEnabled) return;
+        buttonsEnabled = enabled;
+
+        if (enabled)
+        {
+            gripAction.Enable(); aAction.Enable(); bAction.Enable();
+        }
+        else
+        {
+            gripAction.Disable(); aAction.Disable(); bAction.Disable();
+        }
+    }
+
+    private bool TryGetRay(Hand h, out Ray ray)
+    {
+        ray = default;
+        if (h.pos.controls.Count == 0) return false;
+
+        Vector3 localPos = h.pos.ReadValue<Vector3>();
+        Quaternion localRot = h.rot.ReadValue<Quaternion>();
         if (localRot.x == 0f && localRot.y == 0f && localRot.z == 0f && localRot.w == 0f)
             localRot = Quaternion.identity;
 
         Vector3 pos = xrOrigin != null ? xrOrigin.TransformPoint(localPos) : localPos;
         Quaternion rot = (xrOrigin != null ? xrOrigin.rotation * localRot : localRot) * Quaternion.Euler(rayPitchOffset, 0f, 0f);
-        var ray = new Ray(pos, rot * Vector3.forward);
+        ray = new Ray(pos, rot * Vector3.forward);
+        return true;
+    }
 
-        bool placing = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place;
-
-        // Rayo visible
-        line.enabled = true;
-        line.SetPosition(0, ray.origin);
-        line.SetPosition(1, ray.origin + ray.direction * rayLength);
-        line.startColor = line.endColor = placing ? Color.cyan : Color.red;
-
-        // Gatillo
-        if (triggerAction.WasPressedThisFrame())
-        {
-            if (placing) provider.PlaceFromRay(ray);
-            else Shoot(ray);
-        }
-
-        // A: cambiar tipo
-        if (aAction.WasPressedThisFrame() && placing) CycleType();
-
-        // B: alternar modo
-        if (bAction.WasPressedThisFrame()) ToggleMode();
-
-        // Grip: toque corto = deshacer, mantener 1,5 s = borrar todos
-        if (gripAction.WasPressedThisFrame()) gripDownTime = Time.time;
-        if (gripAction.WasReleasedThisFrame() && placing)
-        {
-            if (Time.time - gripDownTime >= 1.5f) provider.ClearAll();
-            else provider.UndoLast();
-        }
-
-        UpdateHud();
+    private void ShowRay(Hand h, Ray ray, Color color)
+    {
+        h.line.enabled = true;
+        h.line.SetPosition(0, ray.origin);
+        h.line.SetPosition(1, ray.origin + ray.direction * rayLength);
+        h.line.startColor = h.line.endColor = color;
     }
 
     private void CycleType()
@@ -172,7 +286,7 @@ public class QuestControllerPlacement : MonoBehaviour
         }
     }
 
-    // Solo en el editor y sin mando: 1 = cambiar tipo, Espacio = alternar modo, Backspace = deshacer.
+    // Solo en el editor y sin mando: 1 = cambiar tipo, Espacio = alternar modo, Backspace = deshacer, Supr = borrar todos.
     private void EditorShortcuts()
     {
 #if UNITY_EDITOR
