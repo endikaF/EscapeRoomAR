@@ -243,9 +243,10 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         s.transform.localScale = Vector3.one * 0.15f;
         s.transform.localPosition = Vector3.up * 0.1f;
         s.GetComponent<Renderer>().material.color =
-    type == MonsterType.Zombie ? Color.green :
-    type == MonsterType.Spider ? Color.magenta : 
-    type == MonsterType.Bat ? Color.yellow : Color.white;
+            type == MonsterType.Zombie ? Color.green :
+            type == MonsterType.Spider ? Color.magenta : 
+            type == MonsterType.Bat ? Color.yellow :
+            type == MonsterType.Skeleton ? Color.cyan : Color.white;
         return s;
     }
 
