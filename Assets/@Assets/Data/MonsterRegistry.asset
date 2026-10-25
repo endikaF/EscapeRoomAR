@@ -18,7 +18,7 @@ MonoBehaviour:
     activationDistance: 0
   - type: 1
     prefab: {fileID: 5128811620208064792, guid: e42dce10de392fb46b7cf553d7658cf4, type: 3}
-    activationDistance: 0
+    activationDistance: 8
   - type: 2
     prefab: {fileID: 1862926869416915249, guid: 456f1534dfe0a9d41b4f14fbdb96a5bf, type: 3}
     activationDistance: 5

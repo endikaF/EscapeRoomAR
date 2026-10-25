@@ -170,6 +170,17 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         // Orientar el punto mirando hacia el jugador (solo en horizontal)
         Quaternion rot = pose.rotation;
         var cam = Camera.main;
+
+        if (type == MonsterType.Spider)
+        {
+            Vector3 n = pose.rotation * Vector3.up;
+            // La normal debe mirar hacia ti (estás en la habitación), sea cual sea la convención del plano
+            if (cam != null && Vector3.Dot(n, cam.transform.position - pose.position) < 0f) n = -n;
+            Vector3 f = cam != null ? Vector3.ProjectOnPlane(cam.transform.position - pose.position, n) : Vector3.forward;
+            if (f.sqrMagnitude < 0.001f) f = Vector3.ProjectOnPlane(Vector3.forward, n);
+            rot = Quaternion.LookRotation(f, n);
+        }
+
         if (cam != null)
         {
             Vector3 toPlayer = cam.transform.position - pose.position;

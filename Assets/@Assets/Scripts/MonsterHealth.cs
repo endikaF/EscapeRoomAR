@@ -21,6 +21,9 @@ public class MonsterHealth : MonoBehaviour
         var chase = GetComponent<ChasePlayer>();
         if (chase != null) chase.Stun(hitStunTime);
 
+        var crawl = GetComponent<SpiderCrawl>();
+        if (crawl != null) crawl.Stun(hitStunTime);
+
         var anim = GetComponentInChildren<Animator>();
         if (anim != null) anim.SetTrigger("Hit");
     }
@@ -31,6 +34,9 @@ public class MonsterHealth : MonoBehaviour
 
         var chase = GetComponent<ChasePlayer>();
         if (chase != null) chase.enabled = false;
+
+        var crawl = GetComponent<SpiderCrawl>();
+        if (crawl != null) crawl.enabled = false;
 
         foreach (var c in GetComponentsInChildren<Collider>())
             c.enabled = false;

@@ -1295,8 +1295,8 @@ GameObject:
   - component: {fileID: 5505336437074420642}
   - component: {fileID: 5470847905714145899}
   - component: {fileID: 9084543214914548175}
-  - component: {fileID: 6684130906787301457}
   - component: {fileID: 7285033288934144897}
+  - component: {fileID: 6084654936912592346}
   - component: {fileID: -6239228652584061443}
   m_Layer: 0
   m_Name: spider_black
@@ -1365,23 +1365,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.7426796, y: 1.7428086, z: 2.9998698}
   m_Center: {x: 0.03428322, y: 0.8628012, z: 0.119992256}
---- !u!114 &6684130906787301457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5128811620208064792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c01c2758eb7024cabb7399feb597b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChasePlayer
-  speed: 1
-  stopDistance: 0.8
-  turnSpeed: 6
-  lockToGround: 0
-  attackCooldown: 1.5
 --- !u!114 &7285033288934144897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,6 +1380,27 @@ MonoBehaviour:
   maxHealth: 3
   destroyDelay: 4
   hitStunTime: 0.5
+--- !u!114 &6084654936912592346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5128811620208064792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d8cbbad7098764b99b127b76557789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiderCrawl
+  speed: 1
+  stopDistance: 0.8
+  attackCooldown: 1.5
+  aggroDistance: 3
+  wanderSpeed: 0.4
+  wanderRadius: 1
+  pauseRange: {x: 0.5, y: 2}
+  turnSpeed: 8
+  bodyOffset: 0
 --- !u!82 &-6239228652584061443
 AudioSource:
   m_ObjectHideFlags: 0
