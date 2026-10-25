@@ -15,13 +15,13 @@ MonoBehaviour:
   entries:
   - type: 0
     prefab: {fileID: 1998371697940912222, guid: d58be77cba3adf54cb14b15052b86514, type: 3}
-    activationDistance: 0
+    activationDistance: 3
   - type: 1
     prefab: {fileID: 5128811620208064792, guid: e42dce10de392fb46b7cf553d7658cf4, type: 3}
-    activationDistance: 8
+    activationDistance: 2
   - type: 2
     prefab: {fileID: 1862926869416915249, guid: 456f1534dfe0a9d41b4f14fbdb96a5bf, type: 3}
-    activationDistance: 5
+    activationDistance: 3
   - type: 3
     prefab: {fileID: 4771722252338024252, guid: 5dd79ce08999e8b438c534c2727b42f1, type: 3}
-    activationDistance: 0
+    activationDistance: 2

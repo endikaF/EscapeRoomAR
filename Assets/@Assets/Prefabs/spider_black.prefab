@@ -1315,7 +1315,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8619246676785766067}
@@ -1393,14 +1393,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiderCrawl
   speed: 1
-  stopDistance: 0.8
+  stopDistance: 0.4
   attackCooldown: 1.5
-  aggroDistance: 3
+  aggroDistance: 1
   wanderSpeed: 0.4
   wanderRadius: 1
   pauseRange: {x: 0.5, y: 2}
   turnSpeed: 8
   bodyOffset: 0
+  landDistance: 0.3
+  settleSpeed: 1
+  dropDistance: 0.6
+  dropSpeed: 1.2
+  dropTurnSpeed: 3
+  threadWidth: 0.004
+  fallbackFloorY: 0
 --- !u!82 &-6239228652584061443
 AudioSource:
   m_ObjectHideFlags: 0
