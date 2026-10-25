@@ -22,3 +22,6 @@ MonoBehaviour:
   - type: 2
     prefab: {fileID: 1862926869416915249, guid: 456f1534dfe0a9d41b4f14fbdb96a5bf, type: 3}
     activationDistance: 5
+  - type: 3
+    prefab: {fileID: 4771722252338024252, guid: 5dd79ce08999e8b438c534c2727b42f1, type: 3}
+    activationDistance: 0
