@@ -36,7 +36,7 @@ public class MonsterHealth : MonoBehaviour
         if (chase != null) chase.enabled = false;
 
         var crawl = GetComponent<SpiderCrawl>();
-        if (crawl != null) crawl.enabled = false;
+        if (crawl != null) crawl.Die();
 
         foreach (var c in GetComponentsInChildren<Collider>())
             c.enabled = false;
