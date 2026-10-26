@@ -22,8 +22,12 @@ public class SkeletonSequence : MonoBehaviour
 
     [Header("Voz")]
     [SerializeField] private AudioSource voice;            // con el clip asignado, Play On Awake desactivado
+    [Tooltip("Solo si no hay audio de voz: segundos que 'habla' el esqueleto. Con voz asignada se ignora")]
+    [SerializeField] private float fakeSpeechDuration = 5f;
 
     private bool started;
+
+    public static event System.Action SpeechFinished;
 
     private void Update()
     {
@@ -60,8 +64,17 @@ public class SkeletonSequence : MonoBehaviour
 
         // 4) Hablar: animación en bucle y audio a la vez
         skeletonAnimator.CrossFade(talkState, crossFade);
-        voice.Play();
-        while (voice.isPlaying) yield return null;
+        bool hasVoice = voice != null && voice.clip != null;
+        if (hasVoice)
+        {
+            voice.Play();
+            while (voice.isPlaying) yield return null;
+        }
+        else
+        {
+            yield return new WaitForSeconds(fakeSpeechDuration);   // simula la voz
+        }
+        SpeechFinished?.Invoke();
 
         // 5) Fin del audio: terminar el ciclo de hablar en curso y congelar la pose
         float n = skeletonAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;

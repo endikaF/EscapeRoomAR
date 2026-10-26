@@ -56,6 +56,8 @@ public class BatSwarm : MonoBehaviour
 
     private float soundBaseVolume = 1f;
 
+    public static event System.Action Spawned;
+
     private void Start()
     {
         birth = Time.time;
@@ -98,6 +100,8 @@ public class BatSwarm : MonoBehaviour
             }
             bats.Add(b);
         }
+
+        Spawned?.Invoke();
 
         Destroy(gameObject, lifetime);
 
