@@ -30,6 +30,13 @@ public class BatSwarm : MonoBehaviour
     [Header("Duración")]
     [SerializeField] private float lifetime = 10f;
 
+    [Header("Sonido")]
+    [SerializeField] private AudioSource flightSound;
+    [Tooltip("Segundos antes del final en los que el volumen baja hasta 0")]
+    [SerializeField] private float fadeOutTime = 1.5f;
+    [Tooltip("El sonido sigue al centro de la bandada (útil con Spatial Blend = 1)")]
+    [SerializeField] private bool soundFollowsSwarm = true;
+
     private class Bat
     {
         public Transform t;
@@ -46,6 +53,8 @@ public class BatSwarm : MonoBehaviour
 
     private readonly List<Bat> bats = new List<Bat>();
     private float birth;
+
+    private float soundBaseVolume = 1f;
 
     private void Start()
     {
@@ -91,6 +100,13 @@ public class BatSwarm : MonoBehaviour
         }
 
         Destroy(gameObject, lifetime);
+
+        if (flightSound != null)
+        {
+            soundBaseVolume = flightSound.volume;
+            flightSound.loop = true;
+            flightSound.Play();
+        }
     }
 
     private void Update()
@@ -142,6 +158,31 @@ public class BatSwarm : MonoBehaviour
                 Vector3 side = Vector3.Cross(Vector3.up, d) * Mathf.Sin(Time.time * 3f + b.phase) * wobble;
                 b.t.position += (d * b.speed + side) * Time.deltaTime;
             }
+        }
+        UpdateSound();
+    }
+
+    private void UpdateSound()
+    {
+        if (flightSound == null) return;
+
+        // Fade-out suave antes de que se destruya la bandada
+        float remaining = birth + lifetime - Time.time;
+        if (remaining < fadeOutTime)
+            flightSound.volume = soundBaseVolume * Mathf.Clamp01(remaining / fadeOutTime);
+
+        // Que el sonido acompañe a los murciélagos en vez de quedarse en el punto de spawn
+        if (soundFollowsSwarm && bats.Count > 0)
+        {
+            Vector3 sum = Vector3.zero;
+            int n = 0;
+            foreach (var b in bats)
+            {
+                if (b.t == null) continue;
+                sum += b.t.position;
+                n++;
+            }
+            if (n > 0) flightSound.transform.position = sum / n;
         }
     }
 }
