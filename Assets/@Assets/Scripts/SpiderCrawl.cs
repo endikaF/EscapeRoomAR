@@ -1,5 +1,6 @@
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using System.Collections.Generic;
 
 // La araña vive pegada a la superficie donde nació (suelo, pared o techo).
 // La superficie se define por el punto de spawn y la normal = transform.up al aparecer.
@@ -55,6 +56,37 @@ public class SpiderCrawl : MonoBehaviour
     [Tooltip("Altura del suelo si no hay XR Origin en la escena (escena de pruebas del editor)")]
     [SerializeField] private float fallbackFloorY = 0f;
 
+    [Header("Sonido")]
+    [Tooltip("AudioSource con el sonido de deambular/perseguir (Loop activado)")]
+    [SerializeField] private AudioSource moveSource;
+    [Tooltip("AudioSource aparte para el ataque (sin Loop, Play On Awake desactivado)")]
+    [SerializeField] private AudioSource attackSource;
+    [SerializeField] private AudioClip attackClip;
+    [Range(0f, 1f)][SerializeField] private float wanderVolume = 0.3f;
+    [Range(0f, 1f)][SerializeField] private float chaseVolume = 1f;
+    [Tooltip("Rapidez del cambio de volumen (unidades de volumen por segundo)")]
+    [SerializeField] private float volumeFadeSpeed = 1.5f;
+    [Tooltip("Segundos entre que empieza la animación de ataque y suena el golpe")]
+    [SerializeField] private float attackSoundDelay = 0f;
+
+    [Tooltip("Rapidez con la que se apaga el sonido de andar al parar")]
+    [SerializeField] private float stopFadeSpeed = 6f;
+
+    [Header("Separación")]
+    [Tooltip("Distancia mínima que intentan mantener entre arañas")]
+    [SerializeField] private float separationRadius = 0.5f;
+    [Tooltip("Rapidez con la que se apartan (m/s)")]
+    [SerializeField] private float separationSpeed = 1.5f;
+
+    private static readonly List<SpiderCrawl> allSpiders = new List<SpiderCrawl>();
+
+    [Tooltip("0 = se queda esperando detrás. Más alto = rodea a las demás buscando un hueco")]
+    [SerializeField] private float sidestepWeight = 0.6f;
+
+    private float distToPlayer;
+
+    private bool moving;
+
     private Animator anim;
     private bool hasAttackParam;
     private Vector3 surfaceOrigin;
@@ -97,8 +129,16 @@ public class SpiderCrawl : MonoBehaviour
             foreach (var p in anim.parameters)
                 if (p.name == "Attack") hasAttackParam = true;
 
+        Debug.Log($"[Spider] anim={(anim != null)}, hasAttackParam={hasAttackParam}, animObj={(anim != null ? anim.gameObject.name : "-")}, spiderObj={gameObject.name}");
+
         PickWaypoint();
         pauseUntil = Time.time + Random.Range(pauseRange.x, pauseRange.y);
+
+        if (moveSource != null)
+        {
+            moveSource.loop = true;
+            moveSource.volume = 0f; // empieza en silencio; UpdateMoveVolume lo arranca al moverse
+        }
     }
 
     private void Update()
@@ -108,6 +148,8 @@ public class SpiderCrawl : MonoBehaviour
             FallUpdate();
             return;
         }
+
+        UpdateMoveVolume();
 
         var cam = Camera.main;
         if (cam == null) return;
@@ -131,7 +173,10 @@ public class SpiderCrawl : MonoBehaviour
 
         // Mantener siempre pegada a la superficie a la altura actual (no mientras cuelga del hilo)
         if (state != State.Drop)
+        {
+            ApplySeparation(player);
             transform.position = ProjectOnSurface(transform.position) + surfaceNormal * heightOnSurface;
+        }
     }
 
     private void Aggro()
@@ -214,6 +259,7 @@ public class SpiderCrawl : MonoBehaviour
             SetMoving(false);
             if (Time.time >= nextAttackTime)
             {
+                Debug.Log($"[Spider] ATAQUE: dist={dist:F2}, hasAttackParam={hasAttackParam}");
                 nextAttackTime = Time.time + attackCooldown;
                 if (anim != null && hasAttackParam) anim.SetTrigger("Attack");
             }
@@ -227,6 +273,9 @@ public class SpiderCrawl : MonoBehaviour
     public void Die()
     {
         DestroyThread(); // el hilo se corta
+
+        StopSounds();
+
         if (state == State.Dead) return;
 
         bool onFloor = !isWall && !isCeiling;
@@ -322,7 +371,8 @@ public class SpiderCrawl : MonoBehaviour
         thread.SetPosition(1, transform.position + Vector3.up * bodyOffset);
     }
 
-    private void OnDisable() { DestroyThread(); }
+    private void OnEnable() { allSpiders.Add(this); }
+    private void OnDisable() { allSpiders.Remove(this); DestroyThread(); }
     private void OnDestroy() { DestroyThread(); }
 
     // ---- Movimiento sobre la superficie ----
@@ -369,9 +419,10 @@ public class SpiderCrawl : MonoBehaviour
         return Vector3.Distance(a, b);
     }
 
-    private void SetMoving(bool moving)
+    private void SetMoving(bool value)
     {
-        if (anim != null) anim.SetBool("IsMoving", moving);
+        moving = value;
+        if (anim != null) anim.SetBool("IsMoving", value);
     }
 
     // Lo llama MonsterHealth al recibir daño: se queda quieta un momento y pasa a ir a por el jugador
@@ -381,5 +432,71 @@ public class SpiderCrawl : MonoBehaviour
         if (Time.time < stunnedUntil) return;
         stunnedUntil = Time.time + seconds;
         SetMoving(false);
+    }
+
+    private void UpdateMoveVolume()
+    {
+        if (moveSource == null) return;
+
+        // Cuelga del hilo (Drop) también cuenta como movimiento
+        bool soundOn = moving || state == State.Drop;
+        float target = !soundOn ? 0f : (state == State.Wander ? wanderVolume : chaseVolume);
+        float fade = soundOn ? volumeFadeSpeed : stopFadeSpeed;
+
+        moveSource.volume = Mathf.MoveTowards(moveSource.volume, target, fade * Time.deltaTime);
+
+        if (soundOn && !moveSource.isPlaying) moveSource.Play();
+        else if (!soundOn && moveSource.volume <= 0f && moveSource.isPlaying) moveSource.Stop();
+    }
+
+    // Lo llama un Animation Event en el clip de ataque, en el frame del golpe
+    public void PlayAttackSound()
+    {
+        if (attackSource == null || attackClip == null) return;
+        attackSource.Stop();
+        attackSource.clip = attackClip;
+        attackSource.Play();
+        Debug.Log($"[Spider] PlayAttackSound t={Time.time:F2}");
+    }
+
+    private void StopSounds()
+    {
+        if (moveSource != null) moveSource.Stop();
+    }
+
+    private void ApplySeparation(Vector3 player)
+    {
+        distToPlayer = HorizontalDistance(player);
+        Vector3 push = Vector3.zero;
+
+        foreach (var o in allSpiders)
+        {
+            if (o == this || o.state == State.Dead) continue;
+
+            // Solo me aparto de las que tienen prioridad (más cerca del jugador). Las de atrás no me empujan
+            bool otherHasPriority = o.distToPlayer < distToPlayer - 0.05f
+                || (Mathf.Abs(o.distToPlayer - distToPlayer) <= 0.05f && o.GetInstanceID() < GetInstanceID());
+            if (!otherHasPriority) continue;
+
+            Vector3 d = transform.position - o.transform.position;
+            float dist = d.magnitude;
+            if (dist >= separationRadius) continue;
+
+            Vector3 away = Vector3.ProjectOnPlane(d, surfaceNormal);
+            if (away.sqrMagnitude < 0.0001f) away = axisR;
+            away.Normalize();
+            float w = 1f - dist / separationRadius;
+
+            Vector3 side = Vector3.Cross(surfaceNormal, away);
+            // Elegir siempre el mismo sentido de giro alrededor del jugador, para que todas rodeen hacia el mismo lado y no se bloqueen
+            Vector3 toPlayerDir = ProjectOnSurface(player) - ProjectOnSurface(transform.position);
+            if (Vector3.Dot(Vector3.Cross(surfaceNormal, toPlayerDir), side) < 0f) side = -side;
+            side = Vector3.Cross(surfaceNormal, away) * Mathf.Sign(Vector3.Dot(Vector3.Cross(surfaceNormal, away), Vector3.ProjectOnPlane(d, surfaceNormal)) + 0.0001f);
+
+            push += (away + side * sidestepWeight) * w;
+        }
+
+        if (push != Vector3.zero)
+            transform.position += push * separationSpeed * Time.deltaTime;
     }
 }
