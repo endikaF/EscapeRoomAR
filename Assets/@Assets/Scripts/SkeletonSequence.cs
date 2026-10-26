@@ -52,6 +52,7 @@ public class SkeletonSequence : MonoBehaviour
             yield return null;
         }
         lid.localRotation = to;
+        if (lidSound != null) lidSound.Stop();
 
         // 2) Incorporarse y 3) girar cabeza (cada uno espera a que termine el anterior)
         yield return PlayAndWait(sitUpState);
