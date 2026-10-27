@@ -32,43 +32,36 @@ public class ARPlacementHUD : MonoBehaviour
         // Texto de estado (arriba)
         string modeText = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place ? "COLOCAR" : "JUGAR";
         GUI.Label(new Rect(pad * 2, pad, Screen.width - pad * 4, h * 1.6f),
-            $"Modo: {modeText}  |  Tipo: {provider.SelectedType}  |  Puntos: {provider.PointCount}\n{provider.LastMessage}",
-            labelStyle);
+                $"Modo: {modeText}  |  {provider.SelectedCategory}: {provider.SelectedType}  |  Puntos: {provider.PointCount}\n{provider.LastMessage}",
+                labelStyle);
 
         float y = Screen.height - stripH + pad;
 
         if (provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place)
         {
-            string[] names = { "Zombie", "Spider", "Bat", "Skeleton", "Deshacer", "Borrar todo", "JUGAR" };
-            float w = (Screen.width - pad * (names.Length + 1)) / names.Length;
+            var types = MonsterTypeExtensions.TypesOf(provider.SelectedCategory);
+            int n = 1 + types.Count + 3;
+            float w = (Screen.width - pad * (n + 1)) / n;
+            int idx = 0;
 
-            for (int i = 0; i < names.Length; i++)
+            // Botón de categoría
+            if (GUI.Button(new Rect(pad + idx++ * (w + pad), y, w, h), "Cat: " + provider.SelectedCategory, buttonStyle))
+                provider.CycleCategory();
+
+            // Tipos de la categoría activa
+            foreach (var t in types)
             {
-                var r = new Rect(pad + i * (w + pad), y, w, h);
-
                 Color old = GUI.backgroundColor;
-                if ((i == 0 && provider.SelectedType == MonsterType.Zombie) ||
-                    (i == 1 && provider.SelectedType == MonsterType.Spider) ||
-                    (i == 2 && provider.SelectedType == MonsterType.Bat) ||
-                    (i == 3 && provider.SelectedType == MonsterType.Skeleton))
-                    GUI.backgroundColor = Color.green;
-
-                bool pressed = GUI.Button(r, names[i], buttonStyle);
+                if (provider.SelectedType == t) GUI.backgroundColor = Color.green;
+                bool pressed = GUI.Button(new Rect(pad + idx++ * (w + pad), y, w, h), t.ToString(), buttonStyle);
                 GUI.backgroundColor = old;
-
-                if (!pressed) continue;
-
-                switch (i)
-                {
-                    case 0: provider.SetType(MonsterType.Zombie); break;
-                    case 1: provider.SetType(MonsterType.Spider); break;
-                    case 2: provider.SetType(MonsterType.Bat); break;
-                    case 3: provider.SetType(MonsterType.Skeleton); break;
-                    case 4: provider.UndoLast(); break;
-                    case 5: provider.ClearAll(); break;
-                    case 6: provider.SetMode(ARTapSpawnPointProvider.Mode.Play); break;
-                }
+                if (pressed) provider.SetType(t);
             }
+
+            if (GUI.Button(new Rect(pad + idx++ * (w + pad), y, w, h), "Deshacer", buttonStyle)) provider.UndoLast();
+            if (GUI.Button(new Rect(pad + idx++ * (w + pad), y, w, h), "Borrar todo", buttonStyle)) provider.ClearAll();
+            if (GUI.Button(new Rect(pad + idx++ * (w + pad), y, w, h), "JUGAR", buttonStyle))
+                provider.SetMode(ARTapSpawnPointProvider.Mode.Play);
         }
         else
         {

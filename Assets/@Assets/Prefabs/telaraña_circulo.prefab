@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7913510904049386686}
   - component: {fileID: 3087896930050923303}
   m_Layer: 0
-  m_Name: SM_Cobwebs_05
+  m_Name: "telara\xF1a_circulo"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

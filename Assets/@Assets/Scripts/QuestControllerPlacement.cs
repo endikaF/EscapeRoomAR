@@ -44,6 +44,9 @@ public class QuestControllerPlacement : MonoBehaviour
 
     // Botones solo del mando derecho (se deshabilitan en modo Jugar)
     private InputAction gripAction, aAction, bAction;
+
+    private InputAction xAction; // mando izquierdo: cambiar categoría
+
     private bool buttonsEnabled = true;
 
     private TextMesh hud;
@@ -57,6 +60,7 @@ public class QuestControllerPlacement : MonoBehaviour
         gripAction = MakeButton("RightHand", "Grip", "{GripButton}", "gripPressed");
         aAction = MakeButton("RightHand", "A", "{PrimaryButton}", "primaryButton");
         bAction = MakeButton("RightHand", "B", "{SecondaryButton}", "secondaryButton");
+        xAction = MakeButton("LeftHand", "X", "{PrimaryButton}", "primaryButton");
     }
 
     private static Hand MakeHand(string side)
@@ -84,20 +88,20 @@ public class QuestControllerPlacement : MonoBehaviour
     private void OnEnable()
     {
         EnableHand(right); EnableHand(left);
-        gripAction.Enable(); aAction.Enable(); bAction.Enable();
+        gripAction.Enable(); aAction.Enable(); bAction.Enable(); xAction.Enable();
         buttonsEnabled = true;
     }
 
     private void OnDisable()
     {
         DisableHand(right); DisableHand(left);
-        gripAction.Disable(); aAction.Disable(); bAction.Disable();
+        gripAction.Disable(); aAction.Disable(); bAction.Disable(); xAction.Disable();
     }
 
     private void OnDestroy()
     {
         DisposeHand(right); DisposeHand(left);
-        gripAction.Dispose(); aAction.Dispose(); bAction.Dispose();
+        gripAction.Dispose(); aAction.Dispose(); bAction.Dispose(); xAction.Dispose();
     }
 
     private static void EnableHand(Hand h) { h.pos.Enable(); h.rot.Enable(); h.trigger.Enable(); }
@@ -168,6 +172,9 @@ public class QuestControllerPlacement : MonoBehaviour
         if (placing)
         {
             left.line.enabled = false;
+
+            if (xAction.WasPressedThisFrame()) provider.CycleCategory();
+
             UpdatePlaceRight();
         }
         else
@@ -234,11 +241,11 @@ public class QuestControllerPlacement : MonoBehaviour
 
         if (enabled)
         {
-            gripAction.Enable(); aAction.Enable(); bAction.Enable();
+            gripAction.Enable(); aAction.Enable(); bAction.Enable(); xAction.Enable();
         }
         else
         {
-            gripAction.Disable(); aAction.Disable(); bAction.Disable();
+            gripAction.Disable(); aAction.Disable(); bAction.Disable(); xAction.Disable();
         }
     }
 
@@ -266,11 +273,7 @@ public class QuestControllerPlacement : MonoBehaviour
         h.line.startColor = h.line.endColor = color;
     }
 
-    private void CycleType()
-    {
-        int count = System.Enum.GetValues(typeof(MonsterType)).Length;
-        provider.SetType((MonsterType)(((int)provider.SelectedType + 1) % count));
-    }
+    private void CycleType() => provider.CycleType();
 
     private void ToggleMode()
     {
@@ -296,6 +299,7 @@ public class QuestControllerPlacement : MonoBehaviour
 
         bool placing = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place;
         if (kb.digit1Key.wasPressedThisFrame && placing) CycleType();
+        if (kb.digit2Key.wasPressedThisFrame && placing) provider.CycleCategory();
         if (kb.spaceKey.wasPressedThisFrame) ToggleMode();
         if (kb.backspaceKey.wasPressedThisFrame && placing) provider.UndoLast();
         if (kb.deleteKey.wasPressedThisFrame && placing) provider.ClearAll();
@@ -316,6 +320,6 @@ public class QuestControllerPlacement : MonoBehaviour
         if (hud == null || provider == null) return;
 
         string mode = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place ? "COLOCAR" : "JUGAR";
-        hud.text = $"{mode} | {provider.SelectedType} | Puntos: {provider.PointCount}\n{provider.LastMessage}";
+        hud.text = $"{mode} | {provider.SelectedCategory}: {provider.SelectedType} | Puntos: {provider.PointCount}\n{provider.LastMessage}";
     }
 }

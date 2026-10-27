@@ -34,11 +34,14 @@ public class SpawnManager : MonoBehaviour
         {
             if (usedPoints.Contains(p.id)) continue;
 
-            // Distancia horizontal: ignora la altura de la cabeza respecto al ancla
-            Vector3 a = new Vector3(player.x, 0f, player.z);
-            Vector3 b = new Vector3(p.position.x, 0f, p.position.z);
-            float maxDist = registry.GetActivationDistance(p.type, activationDistance);
-            if (Vector3.Distance(a, b) > maxDist) continue;
+            // La decoración aparece nada más entrar en JUGAR; el resto, al acercarte
+            if (p.type.GetCategory() != PointCategory.Decoration)
+            {
+                Vector3 a = new Vector3(player.x, 0f, player.z);
+                Vector3 b = new Vector3(p.position.x, 0f, p.position.z);
+                float maxDist = registry.GetActivationDistance(p.type, activationDistance);
+                if (Vector3.Distance(a, b) > maxDist) continue;
+            }
 
             Spawn(p);
         }
@@ -63,17 +66,20 @@ public class SpawnManager : MonoBehaviour
         usedPoints.Clear();
     }
 
-    // true cuando hay puntos y todos han hecho aparecer su monstruo
+    // true cuando hay puntos de monstruo y todos han hecho aparecer el suyo (decoración y audio no cuentan)
     public bool AllPointsSpawned
     {
         get
         {
             if (provider == null) return false;
-            var pts = provider.GetPoints();
-            if (pts.Count == 0) return false;
-            foreach (var p in pts)
+            int monsters = 0;
+            foreach (var p in provider.GetPoints())
+            {
+                if (p.type.GetCategory() != PointCategory.Monster) continue;
+                monsters++;
                 if (!usedPoints.Contains(p.id)) return false;
-            return true;
+            }
+            return monsters > 0;
         }
     }
 }

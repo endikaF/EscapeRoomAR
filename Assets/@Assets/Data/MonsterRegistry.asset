@@ -25,3 +25,12 @@ MonoBehaviour:
   - type: 3
     prefab: {fileID: 757230313778665762, guid: 5dd79ce08999e8b438c534c2727b42f1, type: 3}
     activationDistance: 2
+  - type: 4
+    prefab: {fileID: 4163741130988620699, guid: e7a0606fff99fb241995d1ab3e4694db, type: 3}
+    activationDistance: 0
+  - type: 5
+    prefab: {fileID: 4020804978756500240, guid: f7389a8020fd6fe4ba486ab2fddeb8b1, type: 3}
+    activationDistance: 0
+  - type: 6
+    prefab: {fileID: 7593397299959007469, guid: 66360a66cde4cfa4c8eb70d73f86c0df, type: 3}
+    activationDistance: 0

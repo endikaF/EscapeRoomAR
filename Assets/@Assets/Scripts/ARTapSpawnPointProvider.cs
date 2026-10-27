@@ -37,6 +37,8 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
 
     public Mode CurrentMode { get; private set; } = Mode.Place;
     public MonsterType SelectedType { get; private set; } = MonsterType.Zombie;
+
+    public PointCategory SelectedCategory => SelectedType.GetCategory();
     public string LastMessage { get; private set; } = "Mueve el dispositivo para escanear el suelo y las paredes.";
     public int PointCount => placed.Count;
 
@@ -175,7 +177,7 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         Vector3 n = pose.rotation * Vector3.up;
         if (cam != null && Vector3.Dot(n, cam.transform.position - pose.position) < 0f) n = -n;
 
-        if (type == MonsterType.Spider)
+        if (type.IsSurfaceAligned())
         {
             Vector3 f = cam != null ? Vector3.ProjectOnPlane(cam.transform.position - pose.position, n) : Vector3.forward;
             if (f.sqrMagnitude < 0.001f) f = Vector3.ProjectOnPlane(Vector3.forward, n);
@@ -243,12 +245,29 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         s.transform.SetParent(parent, false);
         s.transform.localScale = Vector3.one * 0.15f;
         s.transform.localPosition = Vector3.up * 0.1f;
-        s.GetComponent<Renderer>().material.color =
-            type == MonsterType.Zombie ? Color.green :
-            type == MonsterType.Spider ? Color.magenta : 
-            type == MonsterType.Bat ? Color.yellow :
-            type == MonsterType.Skeleton ? Color.cyan : Color.white;
+        s.GetComponent<Renderer>().material.color = MarkerColor(type);
         return s;
+    }
+
+    private static Color MarkerColor(MonsterType type)
+    {
+        switch (type)
+        {
+            // Monstruos: verdes/amarillos/rojos
+            case MonsterType.Zombie: return Color.green;
+            case MonsterType.Spider: return Color.red;
+            case MonsterType.Bat: return Color.yellow;
+            case MonsterType.Skeleton: return new Color(1f, 0.5f, 0f);
+            // Decoración: azules/cian
+            case MonsterType.WebCorner: return Color.cyan;
+            case MonsterType.WebWall: return new Color(0.3f, 0.5f, 1f);
+            case MonsterType.WebCircle: return new Color(0.6f, 0.9f, 1f);
+            // Audio: magentas/violetas
+            case MonsterType.Audio_reloj: return Color.magenta;
+            case MonsterType.Audio_cancion: return new Color(0.6f, 0.2f, 0.8f);
+            case MonsterType.Audio_demo: return new Color(1f, 0.5f, 0.9f);
+            default: return Color.white;
+        }
     }
 
     // ---- Persistencia ----
@@ -399,6 +418,24 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
     // ---- API para el HUD y el mando ----
 
     public void SetType(MonsterType type) => SelectedType = type;
+
+    public void CycleCategory()
+    {
+        int count = System.Enum.GetValues(typeof(PointCategory)).Length;
+        var next = (PointCategory)(((int)SelectedCategory + 1) % count);
+        var list = MonsterTypeExtensions.TypesOf(next);
+        if (list.Count > 0) SelectedType = list[0];
+    }
+
+    // Cicla solo dentro de la categoría activa
+    public void CycleType()
+    {
+        var list = MonsterTypeExtensions.TypesOf(SelectedCategory);
+        if (list.Count == 0) return;
+        int i = 0;
+        for (int k = 0; k < list.Count; k++) if (list[k] == SelectedType) { i = k; break; }
+        SelectedType = list[(i + 1) % list.Count];
+    }
 
     public void SetMode(Mode mode)
     {
