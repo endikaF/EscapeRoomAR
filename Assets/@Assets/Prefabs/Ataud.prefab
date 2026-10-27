@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d626c52da4b812a408dc909206abecbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkeletonSequence
-  triggerDistance: 2
+  triggerDistance: 3
   lid: {fileID: 8095740818395582143}
   hingeAxis: {x: 0, y: 1, z: 0}
   openAngle: -110
@@ -57,6 +57,7 @@ MonoBehaviour:
   talkState: Hablar
   crossFade: 0.1
   voice: {fileID: 0}
+  fakeSpeechDuration: 5
 --- !u!1 &8786453755521848559
 GameObject:
   m_ObjectHideFlags: 0

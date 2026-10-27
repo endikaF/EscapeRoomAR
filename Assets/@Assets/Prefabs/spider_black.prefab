@@ -1396,7 +1396,7 @@ MonoBehaviour:
   speed: 1
   stopDistance: 0.4
   attackCooldown: 1.5
-  aggroDistance: 1
+  aggroDistance: 2
   wanderSpeed: 0.4
   wanderRadius: 1
   pauseRange: {x: 0.5, y: 2}
@@ -1417,6 +1417,9 @@ MonoBehaviour:
   volumeFadeSpeed: 1.5
   attackSoundDelay: 0
   stopFadeSpeed: 6
+  separationRadius: 0.5
+  separationSpeed: 1.5
+  sidestepWeight: 0.6
 --- !u!82 &-6239228652584061443
 AudioSource:
   m_ObjectHideFlags: 0
