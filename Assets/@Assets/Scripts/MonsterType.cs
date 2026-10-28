@@ -16,7 +16,11 @@ public enum MonsterType
     // Audio (reservados)
     Audio_reloj,
     Audio_cancion,
-    Audio_demo
+    Audio_demo,
+    // Payasos
+    Payaso_secuencia,
+    Payaso_perseguir,
+    Payaso_emboscar
 }
 
 public enum PointCategory { Monster, Decoration, Audio }
@@ -42,6 +46,7 @@ public static class MonsterTypeExtensions
             case MonsterType.WebCorner:
             case MonsterType.WebWall:
             case MonsterType.WebCircle:
+            case MonsterType.Payaso_secuencia:
                 return PointCategory.Decoration;
             case MonsterType.Audio_reloj:
             case MonsterType.Audio_cancion:

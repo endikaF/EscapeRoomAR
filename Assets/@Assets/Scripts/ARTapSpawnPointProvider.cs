@@ -266,6 +266,10 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
             case MonsterType.Audio_reloj: return Color.magenta;
             case MonsterType.Audio_cancion: return new Color(0.6f, 0.2f, 0.8f);
             case MonsterType.Audio_demo: return new Color(1f, 0.5f, 0.9f);
+            // Payasos: colores variados
+            case MonsterType.Payaso_secuencia: return new Color(0.4f, 0.8f, 1f);
+            case MonsterType.Payaso_perseguir: return new Color(1f, 0.3f, 0.6f);
+            case MonsterType.Payaso_emboscar: return new Color(0.6f, 0f, 0.3f);
             default: return Color.white;
         }
     }

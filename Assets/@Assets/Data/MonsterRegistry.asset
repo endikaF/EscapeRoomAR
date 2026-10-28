@@ -15,22 +15,41 @@ MonoBehaviour:
   entries:
   - type: 0
     prefab: {fileID: 1998371697940912222, guid: d58be77cba3adf54cb14b15052b86514, type: 3}
+    alternativePrefabs: []
     activationDistance: 3
   - type: 1
     prefab: {fileID: 5128811620208064792, guid: e42dce10de392fb46b7cf553d7658cf4, type: 3}
+    alternativePrefabs: []
     activationDistance: 8
   - type: 2
     prefab: {fileID: 1862926869416915249, guid: 456f1534dfe0a9d41b4f14fbdb96a5bf, type: 3}
+    alternativePrefabs: []
     activationDistance: 3
   - type: 3
     prefab: {fileID: 757230313778665762, guid: 5dd79ce08999e8b438c534c2727b42f1, type: 3}
+    alternativePrefabs: []
     activationDistance: 8
   - type: 4
     prefab: {fileID: 1937117472657773476, guid: e7a0606fff99fb241995d1ab3e4694db, type: 3}
+    alternativePrefabs: []
     activationDistance: 0
   - type: 5
     prefab: {fileID: 2640467525537181599, guid: f7389a8020fd6fe4ba486ab2fddeb8b1, type: 3}
+    alternativePrefabs: []
     activationDistance: 0
   - type: 6
     prefab: {fileID: 7593397299959007469, guid: 9496ea85b264afb4c994582ab1867f7d, type: 3}
+    alternativePrefabs: []
+    activationDistance: 0
+  - type: 7
+    prefab: {fileID: 1415804697928428897, guid: d12ecb74010c8a34180e749ae68d646b, type: 3}
+    alternativePrefabs: []
+    activationDistance: 0.5
+  - type: 9
+    prefab: {fileID: 1240388509925757430, guid: 77ea423e7c3367448a64560c3717d04a, type: 3}
+    alternativePrefabs: []
+    activationDistance: 2
+  - type: 10
+    prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
+    alternativePrefabs: []
     activationDistance: 0
