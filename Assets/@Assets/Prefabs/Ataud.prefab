@@ -56,8 +56,12 @@ MonoBehaviour:
   lookState: Girar cabeza izq
   talkState: Hablar
   crossFade: 0.1
-  voice: {fileID: 0}
+  voice: {fileID: 840190076330872475}
   fakeSpeechDuration: 5
+  voiceClipAdult: {fileID: 8300000, guid: f0e8c09ac3c84b3429bc780da33ffeb2, type: 3}
+  voiceClipKids: {fileID: 8300000, guid: 6fc7ebe549ccb3443ae0a813432880c1, type: 3}
+  talkDelayAdult: 0
+  talkDelayKids: 5
 --- !u!1 &8786453755521848559
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +190,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Esqueleto
       objectReference: {fileID: 0}
+    - target: {fileID: 4772603843862566617, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}
+      propertyPath: MaxDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4772603843862566617, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4772603843862566617, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8619898569044342619, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -231,6 +247,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}
+--- !u!82 &840190076330872475 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4772603843862566617, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}
+  m_PrefabInstance: {fileID: 5301657622210222146}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4482011337506696985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8619898569044342619, guid: 7e8d5b38129d96d4c8b05b42567faa9f, type: 3}

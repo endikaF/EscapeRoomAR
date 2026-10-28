@@ -29,9 +29,13 @@ public class SkeletonSequence : MonoBehaviour
     [SerializeField] private AudioClip voiceClipAdult;
     [SerializeField] private AudioClip voiceClipKids;
     [Tooltip("Dejar vacío para usar el estado de adultos")]
-    [SerializeField] private string sitUpStateKids;
-    [SerializeField] private string lookStateKids;
-    [SerializeField] private string talkStateKids;
+    private string sitUpStateKids;
+    private string lookStateKids;
+    private string talkStateKids;
+
+    [Header("Retraso antes de hablar")]
+    [SerializeField] private float talkDelayAdult = 0f;
+    [SerializeField] private float talkDelayKids = 7f;
 
     private bool started;
 
