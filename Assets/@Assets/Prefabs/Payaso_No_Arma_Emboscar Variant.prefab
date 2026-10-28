@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4528356512227257369
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5276254298934066765, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_Name
+      value: Payaso_No_Arma_Emboscar Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 41.65747
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06431
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.00898
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721357951079070482, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137905248313187193, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7406579056969448600, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5276254298934066765, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 4191448122831884384}
+  m_SourcePrefab: {fileID: 100100000, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+--- !u!82 &4613841241392772960 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9137905248313187193, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+  m_PrefabInstance: {fileID: 4528356512227257369}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8642109811480482388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5276254298934066765, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+  m_PrefabInstance: {fileID: 4528356512227257369}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4191448122831884384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642109811480482388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a1bbc1846238e47be471fd78fcd572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PayasoEmboscar
+  watchDistance: 4
+  passDistance: 1
+  speed: 1.2
+  stopDistance: 0.8
+  turnSpeed: 6
+  attackCooldown: 1.5
+  movingBool: IsMoving
+  attackTrigger: Attack
+  laughSource: {fileID: 4613841241392772960}
+  laughClips:
+  - {fileID: 8300000, guid: c370b86cb59140645b9847f293e1ba63, type: 3}
+  laughDelay: 3

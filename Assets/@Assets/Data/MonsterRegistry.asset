@@ -54,10 +54,12 @@ MonoBehaviour:
     alternativePrefabs: []
     activationDistance: 0
   - type: 11
-    prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
-    alternativePrefabs: []
-    activationDistance: 0
+    prefab: {fileID: 6964450531749168349, guid: be0fea6a06c49614cb46872fdeaf3396, type: 3}
+    alternativePrefabs:
+    - {fileID: 5276254298934066765, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
+    activationDistance: 3
   - type: 12
-    prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
-    alternativePrefabs: []
-    activationDistance: 0
+    prefab: {fileID: 5572752462399341789, guid: e35a38843b7ec024bb90ac20493c40a3, type: 3}
+    alternativePrefabs:
+    - {fileID: 8642109811480482388, guid: 180b44ce82ef50047a8c96f31cf91fce, type: 3}
+    activationDistance: 4

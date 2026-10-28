@@ -29,6 +29,9 @@ public class MonsterHealth : MonoBehaviour
 
         var payaso = GetComponent<PayasoPerseguir>();
         if (payaso != null) payaso.Stun(hitStunTime);
+
+        var emboscar = GetComponent<PayasoEmboscar>();
+        if (emboscar != null) emboscar.Stun(hitStunTime);
     }
 
     private void Die()
@@ -52,6 +55,9 @@ public class MonsterHealth : MonoBehaviour
 
         var anim = GetComponentInChildren<Animator>();
         if (anim != null) anim.SetTrigger("Die");
+
+        var emboscar = GetComponent<PayasoEmboscar>();
+        if (emboscar != null) emboscar.Die();
 
         Destroy(gameObject, destroyDelay);
     }
