@@ -53,3 +53,11 @@ MonoBehaviour:
     prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
     alternativePrefabs: []
     activationDistance: 0
+  - type: 11
+    prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
+    alternativePrefabs: []
+    activationDistance: 0
+  - type: 12
+    prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
+    alternativePrefabs: []
+    activationDistance: 0

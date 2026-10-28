@@ -26,6 +26,9 @@ public class MonsterHealth : MonoBehaviour
 
         var anim = GetComponentInChildren<Animator>();
         if (anim != null) anim.SetTrigger("Hit");
+
+        var payaso = GetComponent<PayasoPerseguir>();
+        if (payaso != null) payaso.Stun(hitStunTime);
     }
 
     private void Die()
@@ -37,6 +40,9 @@ public class MonsterHealth : MonoBehaviour
 
         var crawl = GetComponent<SpiderCrawl>();
         if (crawl != null) crawl.Die();
+
+        var payaso = GetComponent<PayasoPerseguir>();
+        if (payaso != null) payaso.Die();
 
         foreach (var c in GetComponentsInChildren<Collider>())
             c.enabled = false;
