@@ -52,11 +52,18 @@ public class MenuController : MonoBehaviour
         aAction.Dispose(); bAction.Dispose(); gripAction.Dispose();
     }
 
-    // Se asigna en el OnClick del botón JUGAR
+    // Botón JUGAR (adultos). Ya está asignado en el OnClick.
     public void StartPlay()
     {
         if (launching) return;
-        Launch(ARTapSpawnPointProvider.Mode.Play, false);
+        Launch(ARTapSpawnPointProvider.Mode.Play, false, false);
+    }
+
+    // Botón nuevo JUGAR NIÑOS
+    public void StartPlayKids()
+    {
+        if (launching) return;
+        Launch(ARTapSpawnPointProvider.Mode.Play, false, true);
     }
 
     private void Update()
@@ -95,14 +102,15 @@ public class MenuController : MonoBehaviour
         else step = pressed == sequence[0] ? 1 : 0;
 
         if (step == sequence.Length)
-            Launch(ARTapSpawnPointProvider.Mode.Place, true);
+            Launch(ARTapSpawnPointProvider.Mode.Place, true, false);
     }
 
-    private void Launch(ARTapSpawnPointProvider.Mode mode, bool admin)
+    private void Launch(ARTapSpawnPointProvider.Mode mode, bool admin, bool kids)
     {
         launching = true;
         GameSession.StartMode = mode;
         GameSession.IsAdmin = admin;
+        GameSession.KidsMode = kids;
         SceneManager.LoadScene(GameSession.GameSceneName);
     }
 }

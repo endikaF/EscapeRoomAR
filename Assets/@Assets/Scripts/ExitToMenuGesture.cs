@@ -65,6 +65,7 @@ public class ExitToMenuGesture : MonoBehaviour
         // Al volver a entrar en la escena de juego se recargan las anclas y el JSON: los puntos se conservan
         GameSession.StartMode = ARTapSpawnPointProvider.Mode.Play;
         GameSession.IsAdmin = false;
+        GameSession.KidsMode = false;
         SceneManager.LoadScene(menuSceneName);
     }
 }

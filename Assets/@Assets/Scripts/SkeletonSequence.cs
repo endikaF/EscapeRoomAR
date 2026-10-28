@@ -25,6 +25,14 @@ public class SkeletonSequence : MonoBehaviour
     [Tooltip("Solo si no hay audio de voz: segundos que 'habla' el esqueleto. Con voz asignada se ignora")]
     [SerializeField] private float fakeSpeechDuration = 5f;
 
+    [Header("Versión niños (opcional)")]
+    [SerializeField] private AudioClip voiceClipAdult;
+    [SerializeField] private AudioClip voiceClipKids;
+    [Tooltip("Dejar vacío para usar el estado de adultos")]
+    [SerializeField] private string sitUpStateKids;
+    [SerializeField] private string lookStateKids;
+    [SerializeField] private string talkStateKids;
+
     private bool started;
 
     public static event System.Action SpeechFinished;
@@ -46,6 +54,8 @@ public class SkeletonSequence : MonoBehaviour
 
     private IEnumerator Sequence()
     {
+        SelectVoiceClip();
+
         // 1) Abrir tapa (giro relativo sobre un solo eje)
         if (lidSound != null) lidSound.Play();
         Quaternion from = lid.localRotation;
@@ -59,11 +69,11 @@ public class SkeletonSequence : MonoBehaviour
         if (lidSound != null) lidSound.Stop();
 
         // 2) Incorporarse y 3) girar cabeza (cada uno espera a que termine el anterior)
-        yield return PlayAndWait(sitUpState);
-        yield return PlayAndWait(lookState);
+        yield return PlayAndWait(Pick(sitUpState, sitUpStateKids));
+        yield return PlayAndWait(Pick(lookState, lookStateKids));
 
         // 4) Hablar: animación en bucle y audio a la vez
-        skeletonAnimator.CrossFade(talkState, crossFade);
+        skeletonAnimator.CrossFade(Pick(talkState, talkStateKids), crossFade);
         bool hasVoice = voice != null && voice.clip != null;
         if (hasVoice)
         {
@@ -94,5 +104,17 @@ public class SkeletonSequence : MonoBehaviour
             if (info.IsName(stateName) && info.normalizedTime >= 0.98f) break;
             yield return null;
         }
+    }
+
+    private string Pick(string adult, string kids)
+    {
+        return GameSession.KidsMode && !string.IsNullOrEmpty(kids) ? kids : adult;
+    }
+
+    private void SelectVoiceClip()
+    {
+        if (voice == null) return;
+        AudioClip chosen = GameSession.KidsMode ? voiceClipKids : voiceClipAdult;
+        if (chosen != null) voice.clip = chosen; // si no hay clip específico, se queda el que tenga el AudioSource
     }
 }
