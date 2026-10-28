@@ -53,8 +53,8 @@ MonoBehaviour:
   lidSound: {fileID: 9084399151604398336}
   skeletonAnimator: {fileID: 6529153903878225571}
   sitUpState: tumbado_Incorporar
-  lookState: Girar cabeza izq
-  talkState: Hablar
+  lookState: Girar cabeza dere
+  talkState: Hablar dere
   crossFade: 0.1
   voice: {fileID: 840190076330872475}
   fakeSpeechDuration: 5
@@ -86,14 +86,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8786453755521848559}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.13052616, w: 0.9914449}
-  m_LocalPosition: {x: -0.129, y: -0.197, z: 0.102}
+  m_LocalRotation: {x: 0.00000014156102, y: 0.00000008940696, z: 0.99134445, w: 0.1312864}
+  m_LocalPosition: {x: 0.118, y: -0.223, z: 0.102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6967091722883630945}
   m_Father: {fileID: 4344060836280403443}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 164.912}
 --- !u!1001 &4344060836280016755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288,31 +288,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.17559177
+      value: 0.17197916
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.15689975
+      value: -0.18459728
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.102
+      value: -0.102000006
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9914449
+      value: 0.1312864
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.00000014156102
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.00000008940696
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.13052616
+      value: -0.99134445
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7e9a41d2b81733a4589a30d664c33824, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
