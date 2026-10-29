@@ -319,7 +319,13 @@ public class QuestControllerPlacement : MonoBehaviour
     {
         if (hud == null || provider == null) return;
 
-        string mode = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place ? "COLOCAR" : "JUGAR";
-        hud.text = $"{mode} | {provider.SelectedCategory}: {provider.SelectedType} | Puntos: {provider.PointCount}\n{provider.LastMessage}";
+        bool placing = provider.CurrentMode == ARTapSpawnPointProvider.Mode.Place;
+
+        // En modo JUGAR el texto de estado no hace falta: se oculta
+        if (hud.gameObject.activeSelf != placing)
+            hud.gameObject.SetActive(placing);
+        if (!placing) return;
+
+        hud.text = $"COLOCAR | {provider.SelectedCategory}: {provider.SelectedType} | Puntos: {provider.PointCount}\n{provider.LastMessage}";
     }
 }

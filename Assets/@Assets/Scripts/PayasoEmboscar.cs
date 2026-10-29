@@ -30,6 +30,13 @@ public class PayasoEmboscar : MonoBehaviour
     [Tooltip("Segundos desde que sale hasta que se ríe")]
     [SerializeField] private float laughDelay = 3f;
 
+    [Header("Ocultar hasta la emboscada")]
+    [Tooltip("Objeto con el modelo del payaso. Vacío = se oculta todo el prefab (incluida la puerta, si es parte del prefab)")]
+    [SerializeField] private Transform modelToHide;
+
+    private Renderer[] hiddenRenderers;
+    private Collider[] hiddenColliders;
+
     private Animator anim;
     private float groundY;
     private Vector3 doorPos;
@@ -45,6 +52,11 @@ public class PayasoEmboscar : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         groundY = transform.position.y;
         doorPos = transform.position;
+
+        Transform target = modelToHide != null ? modelToHide : transform;
+        hiddenRenderers = target.GetComponentsInChildren<Renderer>(true);
+        hiddenColliders = target.GetComponentsInChildren<Collider>(true);
+        SetHidden(true);
     }
 
     private void Update()
@@ -125,6 +137,7 @@ public class PayasoEmboscar : MonoBehaviour
     {
         if (ambushed) return;
         ambushed = true;
+        SetHidden(false);
         StartCoroutine(LaughAfterDelay());
     }
 
@@ -156,5 +169,11 @@ public class PayasoEmboscar : MonoBehaviour
         dead = true;
         StopAllCoroutines();
         if (laughSource != null) laughSource.Stop();
+    }
+
+    private void SetHidden(bool hidden)
+    {
+        foreach (var r in hiddenRenderers) if (r != null) r.enabled = !hidden;
+        foreach (var c in hiddenColliders) if (c != null) c.enabled = !hidden;
     }
 }

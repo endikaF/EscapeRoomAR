@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4234664930071207460, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_Name
-      value: Payaso_No_Arma Variant
+      value: Payaso_No_Arma_Perseguir
       objectReference: {fileID: 0}
     - target: {fileID: 4367313767420779387, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +51,26 @@ PrefabInstance:
     - target: {fileID: 4367313767420779387, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8017139137233825492, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_Controller

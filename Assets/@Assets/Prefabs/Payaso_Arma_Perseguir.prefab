@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5410585509396520684, guid: 89f8fb91fa11b844481189a6e9bd0645, type: 3}
       propertyPath: m_Name
-      value: Payaso_Arma Variant
+      value: Payaso_Arma_Perseguir
       objectReference: {fileID: 0}
     - target: {fileID: 5410585509396520684, guid: 89f8fb91fa11b844481189a6e9bd0645, type: 3}
       propertyPath: m_IsActive
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17089c90104825e4d994679e2b13f23e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PayasoPerseguir
-  aggroDistance: 1.5
+  aggroDistance: 3
   speed: 1.2
   stopDistance: 0.8
   turnSpeed: 6
