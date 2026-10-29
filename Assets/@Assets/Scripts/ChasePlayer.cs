@@ -25,6 +25,8 @@ public class ChasePlayer : MonoBehaviour
 
     private void Update()
     {
+        if (MonsterFreeze.Frozen) return;
+
         var cam = Camera.main;
         if (cam == null) return;
 

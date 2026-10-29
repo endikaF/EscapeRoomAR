@@ -54,7 +54,10 @@ public class SpawnManager : MonoBehaviour
         GameObject prefab = registry.GetPrefab(p.type);
         if (prefab == null) return;
 
-        spawned.Add(Instantiate(prefab, p.position, p.rotation));
+        var go = Instantiate(prefab, p.position, p.rotation);
+        if (p.type.GetCategory() == PointCategory.Monster && p.type != MonsterType.Skeleton)
+            go.AddComponent<FreezeAnimators>();
+        spawned.Add(go);
     }
 
     // Útil para reiniciar la partida (botón, tecla, etc.)

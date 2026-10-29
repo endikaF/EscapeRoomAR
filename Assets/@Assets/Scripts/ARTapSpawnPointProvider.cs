@@ -264,7 +264,6 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
             case MonsterType.WebCircle: return new Color(0.6f, 0.9f, 1f);
             // Audio: magentas/violetas
             case MonsterType.Audio_reloj: return Color.magenta;
-            case MonsterType.Audio_cancion: return new Color(0.6f, 0.2f, 0.8f);
             case MonsterType.Audio_demo: return new Color(1f, 0.5f, 0.9f);
             // Payasos: colores variados
             case MonsterType.Payaso_secuencia: return new Color(0.4f, 0.8f, 1f);

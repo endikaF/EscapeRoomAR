@@ -39,6 +39,8 @@ public class SkeletonSequence : MonoBehaviour
 
     private bool started;
 
+    private bool freezing;
+
     public static event System.Action SpeechFinished;
 
     private void Update()
@@ -76,6 +78,8 @@ public class SkeletonSequence : MonoBehaviour
         yield return PlayAndWait(Pick(sitUpState, sitUpStateKids));
         yield return PlayAndWait(Pick(lookState, lookStateKids));
 
+        freezing = true; MonsterFreeze.Push();
+
         // 4) Hablar: animación en bucle y audio a la vez
         skeletonAnimator.CrossFade(Pick(talkState, talkStateKids), crossFade);
         bool hasVoice = voice != null && voice.clip != null;
@@ -88,6 +92,9 @@ public class SkeletonSequence : MonoBehaviour
         {
             yield return new WaitForSeconds(fakeSpeechDuration);   // simula la voz
         }
+
+        freezing = false; MonsterFreeze.Pop();
+
         SpeechFinished?.Invoke();
 
         // 5) Fin del audio: terminar el ciclo de hablar en curso y congelar la pose
@@ -121,4 +128,6 @@ public class SkeletonSequence : MonoBehaviour
         AudioClip chosen = GameSession.KidsMode ? voiceClipKids : voiceClipAdult;
         if (chosen != null) voice.clip = chosen; // si no hay clip específico, se queda el que tenga el AudioSource
     }
+
+    private void OnDestroy() { if (freezing) MonsterFreeze.Pop(); }
 }

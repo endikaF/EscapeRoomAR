@@ -20,11 +20,11 @@ MonoBehaviour:
   - type: 1
     prefab: {fileID: 5128811620208064792, guid: e42dce10de392fb46b7cf553d7658cf4, type: 3}
     alternativePrefabs: []
-    activationDistance: 8
+    activationDistance: 3
   - type: 2
     prefab: {fileID: 1862926869416915249, guid: 456f1534dfe0a9d41b4f14fbdb96a5bf, type: 3}
     alternativePrefabs: []
-    activationDistance: 3
+    activationDistance: 2
   - type: 3
     prefab: {fileID: 757230313778665762, guid: 5dd79ce08999e8b438c534c2727b42f1, type: 3}
     alternativePrefabs: []
@@ -44,11 +44,11 @@ MonoBehaviour:
   - type: 7
     prefab: {fileID: 1415804697928428897, guid: d12ecb74010c8a34180e749ae68d646b, type: 3}
     alternativePrefabs: []
-    activationDistance: 0.5
+    activationDistance: 1
   - type: 9
     prefab: {fileID: 1240388509925757430, guid: 77ea423e7c3367448a64560c3717d04a, type: 3}
     alternativePrefabs: []
-    activationDistance: 2
+    activationDistance: 1.5
   - type: 10
     prefab: {fileID: 7855187119098637721, guid: 3c4b56a17776dea49ad98dfea8a3eed2, type: 3}
     alternativePrefabs: []
@@ -57,9 +57,9 @@ MonoBehaviour:
     prefab: {fileID: 6964450531749168349, guid: be0fea6a06c49614cb46872fdeaf3396, type: 3}
     alternativePrefabs:
     - {fileID: 5276254298934066765, guid: c729ab09fc638fc44a65b21ecebabbb1, type: 3}
-    activationDistance: 3
+    activationDistance: 2.5
   - type: 12
     prefab: {fileID: 5572752462399341789, guid: e35a38843b7ec024bb90ac20493c40a3, type: 3}
     alternativePrefabs:
     - {fileID: 8642109811480482388, guid: 180b44ce82ef50047a8c96f31cf91fce, type: 3}
-    activationDistance: 4
+    activationDistance: 2.5

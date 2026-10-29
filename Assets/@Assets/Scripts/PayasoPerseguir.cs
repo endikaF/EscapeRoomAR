@@ -41,6 +41,9 @@ public class PayasoPerseguir : MonoBehaviour
     private void Update()
     {
         if (dead) return;
+
+        if (MonsterFreeze.Frozen) return;
+
         var cam = Camera.main;
         if (cam == null) return;
         if (Time.time < stunnedUntil) return;

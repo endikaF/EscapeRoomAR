@@ -15,7 +15,6 @@ public enum MonsterType
     WebCircle,
     // Audio (reservados)
     Audio_reloj,
-    Audio_cancion,
     Audio_demo,
     // Payasos
     Payaso_secuencia,
@@ -49,7 +48,6 @@ public static class MonsterTypeExtensions
             case MonsterType.Payaso_secuencia:
                 return PointCategory.Decoration;
             case MonsterType.Audio_reloj:
-            case MonsterType.Audio_cancion:
             case MonsterType.Audio_demo:
                 return PointCategory.Audio;
             default:

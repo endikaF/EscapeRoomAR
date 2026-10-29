@@ -149,6 +149,8 @@ public class SpiderCrawl : MonoBehaviour
             return;
         }
 
+        if (MonsterFreeze.Frozen) { SetMoving(false); UpdateMoveVolume(); return; }
+
         UpdateMoveVolume();
 
         var cam = Camera.main;

@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4367313767420779387, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4367313767420779387, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4367313767420779387, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4367313767420779387, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -68,6 +68,26 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017139137224294776, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 8017139137233825492, guid: 8e72d70e2a919f14597df631d04caeed, type: 3}
       propertyPath: m_Controller
       value: 
@@ -111,7 +131,7 @@ MonoBehaviour:
   pointState: "Se\xF1alar"
   crossFade: 0.1
   voice: {fileID: 7526239989450372535}
-  pointAfterSeconds: 80
+  pointAfterSeconds: 85
 --- !u!82 &7526239989450372535
 AudioSource:
   m_ObjectHideFlags: 0

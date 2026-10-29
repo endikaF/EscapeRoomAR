@@ -115,6 +115,8 @@ public class BatSwarm : MonoBehaviour
 
     private void Update()
     {
+        if (MonsterFreeze.Frozen) { UpdateSound(); return; }
+
         var cam = Camera.main;
         if (cam == null) return;
         Vector3 player = cam.transform.position;
