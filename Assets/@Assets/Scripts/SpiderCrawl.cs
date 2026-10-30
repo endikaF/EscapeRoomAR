@@ -159,11 +159,18 @@ public class SpiderCrawl : MonoBehaviour
 
         Vector3 player = cam.transform.position;
 
-        if (state == State.Wander && HorizontalDistance(player) <= aggroDistance)
+        if (state == State.Wander && HorizontalDistance(player) <= aggroDistance
+        && RealWorld.CanSee(transform.position, player))
             Aggro();
 
         // Tras aterrizar, acercarse suavemente al suelo
         heightOnSurface = Mathf.MoveTowards(heightOnSurface, bodyOffset, settleSpeed * Time.deltaTime);
+
+        if (state == State.Chase && !RealWorld.CanSee(transform.position, player))
+        {                                                                            
+            SetMoving(false);                                                          
+            return;                                                                    
+        }
 
         switch (state)
         {

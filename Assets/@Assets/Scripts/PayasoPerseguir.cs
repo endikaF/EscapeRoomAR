@@ -53,9 +53,18 @@ public class PayasoPerseguir : MonoBehaviour
         Vector3 dir = target - transform.position;
         float dist = dir.magnitude;
 
+        Vector3 eye = transform.position + Vector3.up * 0.5f;
+        bool sees = RealWorld.CanSee(eye, cam.transform.position);
+
         if (!aggro)
         {
-            if (dist <= aggroDistance) StartAggro();
+            if (dist <= aggroDistance && sees) StartAggro();
+            return;
+        }
+
+        if (!sees)
+        {
+            SetMoving(false);
             return;
         }
 

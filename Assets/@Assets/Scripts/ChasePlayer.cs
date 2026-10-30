@@ -33,6 +33,13 @@ public class ChasePlayer : MonoBehaviour
         // Quieto mientras dura la animación de daño
         if (Time.time < stunnedUntil) return;
 
+        Vector3 eye = transform.position + Vector3.up * 0.5f;
+        if (!RealWorld.CanSee(eye, cam.transform.position))
+        {
+            SetMoving(false);
+            return;
+        }
+
         Vector3 target = cam.transform.position;
         if (lockToGround) target.y = groundY;
 
@@ -49,8 +56,15 @@ public class ChasePlayer : MonoBehaviour
 
         if (dist > stopDistance)
         {
-            transform.position += dir.normalized * speed * Time.deltaTime;
-            SetMoving(true);
+            if (RealWorld.PathBlocked(eye, dir, speed * Time.deltaTime))
+            {
+                SetMoving(false);   // pared delante: se queda quieto
+            }
+            else
+            {
+                transform.position += dir.normalized * speed * Time.deltaTime;
+                SetMoving(true);
+            }
         }
         else
         {
