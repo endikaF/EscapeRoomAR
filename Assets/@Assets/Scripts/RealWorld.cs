@@ -14,13 +14,21 @@ public static class RealWorld
         return !Physics.Linecast(from, to, mask, QueryTriggerInteraction.Ignore);
     }
 
-    // true si, al avanzar 'stepLength' en 'dir', el monstruo chocaría con una pared real.
-    // 'margin' deja un colchón para que no se meta unos centímetros en la pared.
-    public static bool PathBlocked(Vector3 origin, Vector3 dir, float stepLength, float margin = 0.25f)
+    // true si avanzar 'stepLength' en 'dir' chocaría con una pared real.
+    // 'radius' es el grosor del cuerpo. 'normal' es la normal de la pared golpeada.
+    public static bool PathBlocked(Vector3 origin, Vector3 dir, float stepLength,
+                                   out Vector3 normal, float radius = 0.3f)
     {
+        normal = Vector3.zero;
         if (mask < 0) mask = LayerMask.GetMask("RealWorld");
         if (dir.sqrMagnitude < 0.0001f) return false;
-        Vector3 end = origin + dir.normalized * (stepLength + margin);
-        return Physics.Linecast(origin, end, mask, QueryTriggerInteraction.Ignore);
+
+        if (Physics.SphereCast(origin, radius, dir.normalized, out RaycastHit hit,
+                               stepLength + 0.1f, mask, QueryTriggerInteraction.Ignore))
+        {
+            normal = hit.normal;
+            return true;
+        }
+        return false;
     }
 }

@@ -260,7 +260,34 @@ public class SpiderCrawl : MonoBehaviour
 
         if (dist > stopDistance)
         {
-            MoveAndFace(current, dir, speed);
+            // Nivel 2: no atravesar paredes, resbalar a lo largo de ellas.
+            // El origen se separa de la superficie por la que camina y el radio es pequeño,
+            // para que la esfera no choque con su propio plano.
+            float step = speed * Time.deltaTime;
+            Vector3 origin = transform.position + surfaceNormal * 0.1f;
+            const float radius = 0.12f;
+            Vector3 move = dir.normalized;
+
+            if (RealWorld.PathBlocked(origin, move, step, out Vector3 n, radius))
+            {
+                move = Vector3.ProjectOnPlane(move, n);
+                move = Vector3.ProjectOnPlane(move, surfaceNormal);
+
+                if (move.sqrMagnitude < 0.01f ||
+                    RealWorld.PathBlocked(origin, move.normalized, step, out _, radius))
+                {
+                    FaceOnly(dir);
+                    SetMoving(false);   // de frente contra la pared
+                }
+                else
+                {
+                    MoveAndFace(current, move.normalized, speed);
+                }
+            }
+            else
+            {
+                MoveAndFace(current, dir, speed);
+            }
         }
         else
         {

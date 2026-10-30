@@ -77,8 +77,32 @@ public class PayasoPerseguir : MonoBehaviour
 
         if (dist > stopDistance)
         {
-            transform.position += dir.normalized * speed * Time.deltaTime;
-            SetMoving(true);
+            // Nivel 2: no atravesar paredes, resbalar a lo largo de ellas
+            float step = speed * Time.deltaTime;
+            Vector3 move = dir.normalized;
+
+            if (RealWorld.PathBlocked(eye, move, step, out Vector3 n))
+            {
+                move = Vector3.ProjectOnPlane(move, n);
+                move.y = 0f;
+
+                if (move.sqrMagnitude < 0.01f ||
+                    RealWorld.PathBlocked(eye, move.normalized, step, out _))
+                {
+                    SetMoving(false);   // de frente contra la pared o esquina cerrada
+                    move = Vector3.zero;
+                }
+                else
+                {
+                    move.Normalize();
+                }
+            }
+
+            if (move != Vector3.zero)
+            {
+                transform.position += move * step;
+                SetMoving(true);
+            }
         }
         else
         {

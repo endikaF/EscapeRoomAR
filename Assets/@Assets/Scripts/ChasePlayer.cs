@@ -56,13 +56,30 @@ public class ChasePlayer : MonoBehaviour
 
         if (dist > stopDistance)
         {
-            if (RealWorld.PathBlocked(eye, dir, speed * Time.deltaTime))
+            // Nivel 2: no atravesar paredes, resbalar a lo largo de ellas
+            float step = speed * Time.deltaTime;
+            Vector3 move = dir.normalized;
+
+            if (RealWorld.PathBlocked(eye, move, step, out Vector3 n))
             {
-                SetMoving(false);   // pared delante: se queda quieto
+                move = Vector3.ProjectOnPlane(move, n);
+                move.y = 0f;
+
+                if (move.sqrMagnitude < 0.01f ||
+                    RealWorld.PathBlocked(eye, move.normalized, step, out _))
+                {
+                    SetMoving(false);   // de frente contra la pared o esquina cerrada
+                    move = Vector3.zero;
+                }
+                else
+                {
+                    move.Normalize();
+                }
             }
-            else
+
+            if (move != Vector3.zero)
             {
-                transform.position += dir.normalized * speed * Time.deltaTime;
+                transform.position += move * step;
                 SetMoving(true);
             }
         }
