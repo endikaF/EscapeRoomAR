@@ -35,6 +35,13 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
     [SerializeField] private int loadRetries = 5;
     [SerializeField] private float loadRetryDelay = 3f;
 
+    [Header("Oclusión (planos como oclusores en modo Jugar)")]
+    [Tooltip("Material con el shader Halloween/DepthOccluder. Vacío = comportamiento anterior")]
+    [SerializeField] private Material occluderMaterial;
+
+    private readonly Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
+    private bool occluding;
+
     public Mode CurrentMode { get; private set; } = Mode.Place;
     public MonsterType SelectedType { get; private set; } = MonsterType.Zombie;
 
@@ -86,6 +93,8 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
 
     private async void Start()
     {
+        if (planeManager != null)
+            planeManager.trackablesChanged.AddListener(OnPlanesChanged);
 
         SetMode(GameSession.StartMode);
         if (anchorManager == null) return;
@@ -447,12 +456,14 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
         foreach (var p in placed)
             if (p.visual != null) p.visual.SetActive(visible);
 
-        // En modo Jugar: no detectar más planos (y ocultarlos o no, según la opción)
+        // Planos como oclusores en los dos modos
         if (planeManager != null)
         {
-            bool scanning = mode == Mode.Place;
-            planeManager.enabled = scanning;
-            planeManager.SetTrackablesActive(scanning || !hidePlanesWhilePlaying);
+            bool occlude = occluderMaterial != null;
+
+            planeManager.enabled = true;
+            planeManager.SetTrackablesActive(true);
+            SetOcclusion(occlude);
         }
 
         LastMessage = mode == Mode.Place
@@ -510,5 +521,52 @@ public class ARTapSpawnPointProvider : MonoBehaviour, ISpawnPointProvider
             });
         }
         return cache;
+    }
+
+    private void OnDestroy()
+    {
+        if (planeManager != null)
+            planeManager.trackablesChanged.RemoveListener(OnPlanesChanged);
+    }
+
+    private void SetOcclusion(bool on)
+    {
+        occluding = on;
+
+        if (on)
+        {
+            foreach (var plane in planeManager.trackables)
+                ApplyOccluder(plane);
+        }
+        else
+        {
+            foreach (var kv in originalMaterials)
+            {
+                if (kv.Key == null) continue;
+                kv.Key.sharedMaterial = kv.Value;
+                var line = kv.Key.GetComponent<LineRenderer>();
+                if (line != null) line.enabled = true;
+            }
+            originalMaterials.Clear();
+        }
+    }
+
+    private void OnPlanesChanged(ARTrackablesChangedEventArgs<ARPlane> args)
+    {
+        if (!occluding) return;
+        foreach (var plane in args.added) ApplyOccluder(plane);
+    }
+
+    private void ApplyOccluder(ARPlane plane)
+    {
+        var r = plane.GetComponent<MeshRenderer>();
+        if (r == null) return;
+
+        if (!originalMaterials.ContainsKey(r)) originalMaterials[r] = r.sharedMaterial;
+        r.sharedMaterial = occluderMaterial;
+        r.enabled = true;
+
+        var line = plane.GetComponent<LineRenderer>();
+        if (line != null) line.enabled = false;
     }
 }

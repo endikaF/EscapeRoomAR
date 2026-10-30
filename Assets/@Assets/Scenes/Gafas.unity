@@ -818,6 +818,7 @@ MonoBehaviour:
   saveFileName: spawnpoints.json
   loadRetries: 5
   loadRetryDelay: 3
+  occluderMaterial: {fileID: 2100000, guid: d58710e03bd0a744e949e2e77889c8a2, type: 2}
 --- !u!4 &1464789202
 Transform:
   m_ObjectHideFlags: 0
