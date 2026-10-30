@@ -1431,7 +1431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e191970e69638af4883b44c05b52c3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MockSpawnMarker
-  type: 10
+  type: 0
 --- !u!1 &1956537941
 GameObject:
   m_ObjectHideFlags: 0

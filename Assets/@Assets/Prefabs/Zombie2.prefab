@@ -522,7 +522,7 @@ MonoBehaviour:
   speed: 1
   stopDistance: 0.8
   turnSpeed: 6
-  lockToGround: 0
+  lockToGround: 1
   attackCooldown: 1.5
 --- !u!114 &-8361798051203204997
 MonoBehaviour:
