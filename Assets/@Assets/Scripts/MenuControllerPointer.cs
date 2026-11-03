@@ -60,6 +60,8 @@ public class MenuControllerPointer : MonoBehaviour
         line.startWidth = line.endWidth = 0.006f;
         line.material = new Material(Shader.Find("Sprites/Default"));
         line.startColor = line.endColor = Color.cyan;
+        line.sortingOrder = 100;                 // se dibuja después del Canvas
+        line.material.renderQueue = 4000;        // refuerzo
         line.enabled = false;
     }
 
@@ -82,10 +84,6 @@ public class MenuControllerPointer : MonoBehaviour
                              * Quaternion.Euler(rayPitchOffset, 0f, 0f);
             ray = new Ray(pos, rot * Vector3.forward);
             clicked = triggerAction.WasPressedThisFrame();
-
-            line.enabled = true;
-            line.SetPosition(0, ray.origin);
-            line.SetPosition(1, ray.origin + ray.direction * rayLength);
         }
         else
         {
@@ -96,13 +94,19 @@ public class MenuControllerPointer : MonoBehaviour
             clicked = Input.GetMouseButtonDown(0);
         }
 
-        if (!clicked) return;
+        bool didHit = Physics.Raycast(ray, out RaycastHit hit, rayLength);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, rayLength))
+        if (hasController)
         {
-            var button = hit.collider.GetComponentInParent<Button>();
-            if (button != null && button.interactable)
-                button.onClick.Invoke();
+            line.enabled = true;
+            line.SetPosition(0, ray.origin);
+            line.SetPosition(1, didHit ? hit.point : ray.origin + ray.direction * rayLength);
         }
+
+        if (!clicked || !didHit) return;
+
+        var button = hit.collider.GetComponentInParent<Button>();
+        if (button != null && button.interactable)
+            button.onClick.Invoke();
     }
 }
