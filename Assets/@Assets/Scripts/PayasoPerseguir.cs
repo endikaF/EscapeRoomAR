@@ -2,26 +2,26 @@ using System.Collections;
 using UnityEngine;
 
 // Payaso monstruo: idle hasta que entras en aggroDistance; entonces te persigue,
-// te ataca al llegar y se ríe a intervalos. Se pone en la raíz del prefab.
+// te ataca al llegar y se rÃ­e a intervalos. Se pone en la raÃ­z del prefab.
 public class PayasoPerseguir : MonoBehaviour
 {
     [Header("Comportamiento")]
     [Tooltip("Distancia horizontal a la que deja el idle y va a por ti")]
     [SerializeField] private float aggroDistance = 3f;
     [SerializeField] private float speed = 1.2f;
-    [Tooltip("Distancia a la que se detiene y ataca (más alta en el payaso con arma)")]
+    [Tooltip("Distancia a la que se detiene y ataca (mÃ¡s alta en el payaso con arma)")]
     [SerializeField] private float stopDistance = 0.8f;
     [SerializeField] private float turnSpeed = 6f;
     [SerializeField] private float attackCooldown = 1.5f;
 
-    [Header("Animator (nombres de parámetros)")]
+    [Header("Animator (nombres de parÃ¡metros)")]
     [SerializeField] private string movingBool = "IsMoving";
     [SerializeField] private string attackTrigger = "Attack";
 
     [Header("Risa")]
     [SerializeField] private AudioSource laughSource;
     [SerializeField] private AudioClip[] laughClips;
-    [Tooltip("Segundos entre risas (mínimo y máximo)")]
+    [Tooltip("Segundos entre risas (mÃ­nimo y mÃ¡ximo)")]
     [SerializeField] private Vector2 laughInterval = new Vector2(4f, 8f);
 
     private Animator anim;
@@ -137,7 +137,7 @@ public class PayasoPerseguir : MonoBehaviour
         if (anim != null) anim.SetBool(movingBool, value);
     }
 
-    // Lo llama MonsterHealth al recibir daño
+    // Lo llama MonsterHealth al recibir daÃ±o
     public void Stun(float seconds)
     {
         if (!aggro) StartAggro(); // si le disparas en idle, se activa

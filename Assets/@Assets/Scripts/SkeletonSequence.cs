@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class SkeletonSequence : MonoBehaviour
 {
-    [Header("Activación")]
+    [Header("ActivaciÃ³n")]
     [SerializeField] private float triggerDistance = 2f;
 
     [Header("Tapa")]
     [SerializeField] private Transform lid;               // la tapa, con su pivote en la bisagra/borde
     [SerializeField] private Vector3 hingeAxis = Vector3.right; // eje local de giro: X
-    [SerializeField] private float openAngle = 110f;            // si abre al revés, pon -110
+    [SerializeField] private float openAngle = 110f;            // si abre al revÃ©s, pon -110
     [SerializeField] private float lidOpenTime = 1.5f;
     [SerializeField] private AudioSource lidSound;         // opcional
 
@@ -25,10 +25,10 @@ public class SkeletonSequence : MonoBehaviour
     [Tooltip("Solo si no hay audio de voz: segundos que 'habla' el esqueleto. Con voz asignada se ignora")]
     [SerializeField] private float fakeSpeechDuration = 5f;
 
-    [Header("Versión niños (opcional)")]
+    [Header("VersiÃ³n niÃ±os (opcional)")]
     [SerializeField] private AudioClip voiceClipAdult;
     [SerializeField] private AudioClip voiceClipKids;
-    [Tooltip("Dejar vacío para usar el estado de adultos")]
+    [Tooltip("Dejar vacÃ­o para usar el estado de adultos")]
     private string sitUpStateKids;
     private string lookStateKids;
     private string talkStateKids;
@@ -80,7 +80,7 @@ public class SkeletonSequence : MonoBehaviour
 
         freezing = true; MonsterFreeze.Push();
 
-        // 4) Hablar: animación en bucle y audio a la vez
+        // 4) Hablar: animaciÃ³n en bucle y audio a la vez
         skeletonAnimator.CrossFade(Pick(talkState, talkStateKids), crossFade);
         bool hasVoice = voice != null && voice.clip != null;
         if (hasVoice)
@@ -107,8 +107,8 @@ public class SkeletonSequence : MonoBehaviour
     private IEnumerator PlayAndWait(string stateName)
     {
         skeletonAnimator.CrossFade(stateName, crossFade);
-        yield return null; // dejar que arranque la transición
-        // esperar a que el estado esté activo y haya acabado
+        yield return null; // dejar que arranque la transiciÃ³n
+        // esperar a que el estado estÃ© activo y haya acabado
         while (true)
         {
             var info = skeletonAnimator.GetCurrentAnimatorStateInfo(0);
@@ -126,7 +126,7 @@ public class SkeletonSequence : MonoBehaviour
     {
         if (voice == null) return;
         AudioClip chosen = GameSession.KidsMode ? voiceClipKids : voiceClipAdult;
-        if (chosen != null) voice.clip = chosen; // si no hay clip específico, se queda el que tenga el AudioSource
+        if (chosen != null) voice.clip = chosen; // si no hay clip especÃ­fico, se queda el que tenga el AudioSource
     }
 
     private void OnDestroy() { if (freezing) MonsterFreeze.Pop(); }

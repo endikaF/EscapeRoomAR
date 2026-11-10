@@ -2,23 +2,23 @@ using System.Collections;
 using UnityEngine;
 
 // Payaso decorativo: idle hasta que te acercas; entonces suena la voz (en idle o con
-// una animación de hablar opcional) y después señala y se queda congelado.
+// una animaciÃ³n de hablar opcional) y despuÃ©s seÃ±ala y se queda congelado.
 public class PayasoSecuencia : MonoBehaviour
 {
-    [Header("Activación")]
+    [Header("ActivaciÃ³n")]
     [SerializeField] private float triggerDistance = 2f;
 
-    [Header("Animación")]
+    [Header("AnimaciÃ³n")]
     [SerializeField] private Animator animator;
-    [Tooltip("Opcional: estado mientras habla. Vacío = se queda en idle")]
+    [Tooltip("Opcional: estado mientras habla. VacÃ­o = se queda en idle")]
     [SerializeField] private string talkState = "";
-    [Tooltip("Nombre EXACTO del estado de señalar")]
+    [Tooltip("Nombre EXACTO del estado de seÃ±alar")]
     [SerializeField] private string pointState = "Pointing";
     [SerializeField] private float crossFade = 0.1f;
 
     [Header("Voz")]
     [SerializeField] private AudioSource voice;
-    [Tooltip("0 = señala cuando termina la voz. Mayor que 0 = señala a esos segundos de empezar a hablar")]
+    [Tooltip("0 = seÃ±ala cuando termina la voz. Mayor que 0 = seÃ±ala a esos segundos de empezar a hablar")]
     [SerializeField] private float pointAfterSeconds = 0f;
 
     private bool started;
@@ -56,7 +56,7 @@ public class PayasoSecuencia : MonoBehaviour
         else if (hasVoice)
             while (voice.isPlaying) yield return null;
 
-        // Señalar y esperar a que termine
+        // SeÃ±alar y esperar a que termine
         animator.CrossFade(pointState, crossFade);
         yield return null;
         while (true)
@@ -66,7 +66,7 @@ public class PayasoSecuencia : MonoBehaviour
             yield return null;
         }
 
-        // Congelar en la pose de señalar
+        // Congelar en la pose de seÃ±alar
         animator.speed = 0f;
     }
 }

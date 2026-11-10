@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Línea de visión contra los planos reales (capa "RealWorld").
+// LÃ­nea de visiÃ³n contra los planos reales (capa "RealWorld").
 public static class RealWorld
 {
     private static int mask = -1;
@@ -14,7 +14,7 @@ public static class RealWorld
         return !Physics.Linecast(from, to, mask, QueryTriggerInteraction.Ignore);
     }
 
-    // true si avanzar 'stepLength' en 'dir' chocaría con una pared real.
+    // true si avanzar 'stepLength' en 'dir' chocarÃ­a con una pared real.
     // 'radius' es el grosor del cuerpo. 'normal' es la normal de la pared golpeada.
     public static bool PathBlocked(Vector3 origin, Vector3 dir, float stepLength,
                                    out Vector3 normal, float radius = 0.3f)
